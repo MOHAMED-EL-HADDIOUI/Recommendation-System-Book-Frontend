@@ -1,0 +1,137 @@
+<div id="top_bg_home" class="top">
+  <header id="header" class="ghost_menu">
+    <div class="logo"><img src="assets/images/logo.png" alt="logo" /></div>
+    <nav id="navigation" class="top_menu" >
+      <ul id="menu_navigation" class="menu" >
+        <li class=""><a href="/">Page d'accueil</a></li>
+        <li><a href="/books">Livres</a></li>
+        <li class="menu_has_children" ><a href="review-page.html">Entrées</a>
+          <ul class="sub-menu">
+            <li><a href="review.html">Recenzja1</a></li>
+            <li><a href="review.html">Recenzja3</a></li>
+          </ul>
+        </li>
+        <li><a href="/contact">Contact</a></li>
+        <li class="menu_has_children"><a href="/connexion">Se connecter</a>
+          <ul class="sub-menu">
+            <li><a href="/inscription">Inscription</a></li>
+            <li><a href="/connexion">Connexion</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <a href="javascript:void(0);" class="navigation_control"><i class="icon-menu"></i></a>
+  </header>
+  <div id="parallax" class="bg"></div>
+  <div class="container_">
+    <div class="container2">
+      <h2 class="title"></h2>
+    </div>
+  </div>
+</div>
+<div id="main">
+  <div class="content full_width">
+    <section class="books">
+      <h2 class="title_r">Chercher des livres</h2>
+      <div class="search-container">
+        <form [formGroup]="searchFormGroup" (ngSubmit)="searchBooks()">
+          <input formControlName="keyword" type="text" id="searchInput" placeholder="Rechercher un livre..." />
+          <button class="search-button" type="submit">Rechercher</button>
+        </form>
+      </div>
+      <div class="wrap book_main_list">
+        <ng-container *ngIf="data |async as listBooks; else failureOrLading" >
+          <div class="book" *ngFor="let c of listBooks.bookDTOList">
+            <a (click)="navigateToBook(c.isbn)">
+              <img class="cover" alt="okładka" src="{{c.imageURLM}}" />
+              <div class="info">
+                <h5>{{c.bookTitle}}</h5>
+              </div>
+            </a>
+          </div>
+        </ng-container>
+        <ng-template #failureOrLading class="text-danger">
+          <ng-container *ngIf="errorMessage; else loading">
+            <div class="text-danger">
+              {{errorMessage}}
+            </div>
+          </ng-container>
+          <ng-template #loading>
+            <main>
+              <svg class="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#5ebd3e" />
+                    <stop offset="33%" stop-color="#ffb900" />
+                    <stop offset="67%" stop-color="#f78200" />
+                    <stop offset="100%" stop-color="#e23838" />
+                  </linearGradient>
+                  <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
+                    <stop offset="0%" stop-color="#e23838" />
+                    <stop offset="33%" stop-color="#973999" />
+                    <stop offset="67%" stop-color="#009cdf" />
+                    <stop offset="100%" stop-color="#5ebd3e" />
+                  </linearGradient>
+                </defs>
+                <g fill="none" stroke-linecap="round" stroke-width="16">
+                  <g class="ip__track" stroke="#ddd">
+                    <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                    <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+                  </g>
+                  <g stroke-dasharray="180 656">
+                    <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0" d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                    <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358" d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+                  </g>
+                </g>
+              </svg>
+            </main>
+          </ng-template>
+        </ng-template>
+      </div>
+      <div class="pagination">
+        <button (click)="previousPage()" [class.disabled]="currentPagee === 0">Précédent</button>
+        <span class="page-info">Page <span id="currentPage">{{currentPagee}}</span> / <span id="totalPages">{{totalPages}}</span></span>
+        <button (click)="nextPage() "[class.disabled]="currentPagee >= totalPages-1">Suivant</button>
+      </div>
+
+    </section>
+    <div class="footer">
+      <div class="footer-content">
+        <div class="footer-section about">
+          <h3>À propos de nous</h3>
+          <p>Ce site est dédié aux amateurs de livres. Découvrez de nouveaux livres, partagez vos avis, et connectez-vous avec une communauté passionnée de lecture.</p>
+          <div class="contact">
+            <span><i class="icon-phone"></i> &nbsp; +33 1 23 45 67 89</span>
+            <span><i class="icon-envelope"></i> &nbsp; contactlivres.com</span>
+          </div>
+          <div class="socials">
+            <a href="#"><i class="icon-facebook"></i></a>
+            <a href="#"><i class="icon-twitter"></i></a>
+            <a href="#"><i class="icon-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-section links">
+          <h3>Liens rapides</h3>
+          <ul>
+            <li><a href="/">Page d'accueil</a></li>
+            <li><a href="/books">Livres</a></li>
+            <li><a href="review-page.html">Entrées</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section newsletter">
+          <h3>Newsletter</h3>
+          <p>Abonnez-vous à notre newsletter pour rester informé des dernières sorties de livres et critiques populaires.</p>
+          <form action="newsletter.html" method="post">
+            <input type="email" name="email" class="text-input newsletter-input" placeholder="Entrez votre email...">
+            <input type="submit" value="S'abonner" class="newsletter-btn">
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2024 livres.com | Tous droits réservés.
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/js/top_bg.js"></script>

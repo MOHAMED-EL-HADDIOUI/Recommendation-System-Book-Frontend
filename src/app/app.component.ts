@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { HomeComponent } from './home/home.component';
+import {RouterModule} from "@angular/router";
+import {BooksComponent} from "./books/books.component";
+import {BookComponent} from "./book/book.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CommonModule, RouterModule, HomeComponent,BooksComponent,BookComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
-  title = 'Recommendation-System-Book-Frontend';
+  title = 'Books';
 }

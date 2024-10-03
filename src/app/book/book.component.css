@@ -1,0 +1,194 @@
+/* Styles généraux pour le pied de page */
+.footer {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 40px 0;
+    text-align: left;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 10px 20px;
+}
+
+.footer-section h3 {
+    margin-bottom: 20px;
+    color: #ecf0f1;
+    font-size: 18px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-section a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer-section a:hover {
+    color: #3498db;
+}
+
+/* Style pour la section "À propos" */
+.footer-section.about .contact span {
+    display: block;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.footer-section.about .socials a {
+    display: inline-block;
+    margin-right: 10px;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.footer-section.about .socials a:hover {
+    color: #3498db;
+}
+
+/* Style pour la section "Liens rapides" */
+.footer-section.links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section.links ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section.links ul li a {
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+/* Style pour la section "Newsletter" */
+.footer-section.newsletter form {
+    display: flex;
+    flex-direction: column;
+}
+
+.newsletter-input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.newsletter-btn {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 10px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Style pour le bas du pied de page */
+.footer-bottom {
+    background-color: #131313;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 30px;
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+#ooooooooooooooooooooooooooo
+
+    /* Style général de la section book_u */
+.book_u {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.book_u :hover {
+  transform:scale(0.8);
+  transition: transform .8s;
+  z-index:10;
+}
+
+
+
+
+
+/* Organiser les détails à gauche et l'image à droite */
+.book-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Détails du livre à gauche */
+.book-details {
+    width: 60%; /* Ajuste la largeur des détails du livre */
+    font-family: 'Arial', sans-serif;
+    color: #363535;
+    margin: 2%;
+}
+
+/* Style pour l'image de couverture à droite */
+.book-cover {
+    width: 40%;
+    height: auto;
+    margin: 0% 10%; /* Espace entre les détails et l'image */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Détails supplémentaires */
+.book-details h3 {
+    font-size: 45px;
+    color: #2c3e50;
+    margin-bottom: 40px;
+}
+
+.book-details p {
+    margin: 10px 0;
+    font-size: 20px;
+    text-align: center;
+
+}
+
+.book-details strong {
+    color: #404041;
+    font-family: "Arial Black";
+}
+
+/* Images supplémentaires */
+.book-images img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    border-radius: 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.book-images p {
+    margin: 15px;
+}
+
+

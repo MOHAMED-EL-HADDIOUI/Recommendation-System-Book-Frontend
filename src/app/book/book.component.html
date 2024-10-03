@@ -1,0 +1,295 @@
+<div id="top_bg_home" class="top">
+  <header id="header" class="ghost_menu">
+    <div class="logo"><img src="assets/images/logo.png" alt="logo"/></div>
+    <nav id="navigation" class="top_menu">
+      <ul id="menu_navigation" class="menu">
+        <li class=""><a href="/">Page d'accueil</a></li>
+        <li><a href="/books">Livres</a></li>
+        <li class="menu_has_children"><a href="review-page.html">Entrées</a>
+          <ul class="sub-menu">
+            <li><a href="review.html">Recenzja1</a></li>
+            <li><a href="review.html">Recenzja3</a></li>
+          </ul>
+        </li>
+        <li><a href="/contact">Contact</a></li>
+        <li class="menu_has_children"><a href="/connexion">Se connecter</a>
+          <ul class="sub-menu">
+            <li><a href="/inscription">Inscription</a></li>
+            <li><a href="/connexion">Connexion</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <a href="javascript:void(0);" class="navigation_control"><i class="icon-menu"></i></a>
+  </header>
+  <div id="parallax" class="bg" style="background-image:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ book.imageURLL }}');"></div>
+  <div class="container_">
+    <div class="book_cover col_40p">
+      <img class="cover" alt="okładka" style="width:45%;height:50%;margin:10%;" src="{{book.imageURLL}}"/>
+    </div>
+    <div class="book_info col_60p">
+      <h2 class="book_title">{{book.bookTitle}}</h2>
+    </div>
+  </div>
+</div>
+<div id="main">
+  <div class="content full_width book_page">
+    <section class="book_info2">
+      <h2>Informations sur le livre</h2>
+      <div class="book_tableinfo">
+        <table>
+          <tr>
+            <td>Titre :</td>
+            <td>{{book.bookTitle}}</td>
+          </tr>
+          <tr>
+            <td>Autor:</td>
+            <td>{{book.bookAuthor}}</td>
+          </tr>
+          <tr>
+            <td>Éditeur:</td>
+            <td>{{book.publisher}}</td>
+          </tr>
+          <tr>
+            <td>Année de sortie :</td>
+            <td>{{book.yearOfPublication}}</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section id="vote_section" class="book_vote">
+      <div class="container_">
+        <h2>Ajouter à l'étagère</h2>
+        <div class="vote_block">
+          <div class="book_vote anim_book_vote1">
+            <div class="vote_count ">
+              <div id="vote1_count" class="anim_count1">826</div>
+            </div>
+            <div class="vote_buttons">
+              <button type="button" onclick="vote(1)" id="vote1" class="anim_button1">Przeczytałem/am
+              </button>
+            </div>
+
+          </div>
+          <div class="book_vote anim_book_vote2">
+            <div class="vote_count">
+              <div id="vote2_count" class="anim_count2">45</div>
+            </div>
+            <div class="vote_buttons">
+              <button type="button" onclick="vote(2)" id="vote2" class="anim_button2">Czytam</button>
+            </div>
+
+          </div>
+          <div class="book_vote anim_book_vote3">
+            <div class="vote_count">
+              <div id="vote3_count" class="anim_count3">70</div>
+            </div>
+            <div class="vote_buttons">
+              <button type="button" onclick="vote(3)" id="vote3" class="anim_button3">Chcę przeczytać
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="icon icon-star"></div>
+    </section>
+    <section class="book_info_author">
+      <h2>À propos de l'auteur</h2>
+      <div class="author_wrap">
+        <div class="author">
+          <div class="author_img col_40p">
+            <div class="avatar">
+              <img alt="avatar"
+                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/PomnikAleksandraKami%C5%84skiego01.jpg/220px-PomnikAleksandraKami%C5%84skiego01.jpg"/>
+            </div>
+          </div>
+          <div class="author_info col_60p">
+            <h4>Aleksander Kamiński</h4>
+            <div class="description">
+              <p>Aleksander Kamiński a vécu entre 1903 et 1978. Il était un enseignant et un instructeur dévoué
+                un éclaireur, un chef scout, un des soldats de l'Armée de l'Intérieur et le chef des Gris
+                Rangs. Son surnom était « Kamyk ». En 1943-44, il écrit le livre "Kamienie na
+                Szaniec". Le titre était une initiative de l'un de ses personnages principaux - Zośka, fait référence à
+                Le poème préféré de Rudy, de Juliusz Słowacki.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+    <section class="book_review">
+      <h2>Derniers avis</h2>
+      <div class="review_wrap">
+        <div class="review">
+          <div class="review_info col_60p">
+            <h4>Le Quidditch après de nombreuses années</h4>
+            <div class="description">
+              <p>Il est très important que le client suive la formation du client, mais c'est ce qui se passe en même temps
+                comme avec un grand travail et de grandes douleurs. Car pour en venir au moindre détail, quel est notre exercice ?
+                pas de travail, sauf pour en tirer quelque avantage. Ne vous précipitez pas dans la maison
+                critiquer...</p>
+            </div>
+          </div>
+          <div class="review_author col_40p">
+            <div class="avatar">
+              <img alt="avatar" src="assets/images/avatar/1.jpg"/>
+            </div>
+            <h4>Ewelina Nowak</h4>
+          </div>
+        </div>
+        <div class="review">
+          <div class="review_info col_60p">
+            <h4>Pouvez-vous être en sécurité à la maison ?</h4>
+            <div class="description">
+              <p>Il est très important que le client suive la formation du client, mais c'est ce qui se passe en même temps
+                comme avec un grand travail et de grandes douleurs. Car pour en venir au moindre détail, quel est notre exercice ?
+                pas de travail, sauf pour en tirer quelque avantage. Ne vous précipitez pas dans la maison
+                critiquer...</p>
+            </div>
+
+          </div>
+          <div class="review_author col_40p">
+            <div class="avatar">
+              <img alt="avatar" src="assets/images/avatar/2.jpeg"/>
+            </div>
+            <h4>Daniel Ciupala</h4>
+          </div>
+        </div>
+        <div class="review">
+          <div class="review_info col_60p">
+            <h4>Parce que pour gagner, il faut jouer !</h4>
+            <div class="description">
+              <p>Il est très important que le client suive la formation du client, mais c'est ce qui se passe en même temps
+                comme avec un grand travail et de grandes douleurs. Car pour en venir au moindre détail, quel est notre exercice ?
+                pas de travail, sauf pour en tirer quelque avantage. Ne vous précipitez pas dans la maison
+                critiquer...</p>
+            </div>
+
+          </div>
+          <div class="review_author col_40p">
+            <div class="avatar">
+              <img alt="avatar" src="assets/images/avatar/3.jpeg"/>
+            </div>
+            <h4>Adam Konieczny</h4>
+          </div>
+        </div>
+        <div class="review">
+          <div class="review_info col_60p">
+            <h4>Un grand livre sur l'histoire de la Pologne</h4>
+            <div classe="description">
+              <p>C'est vraiment chiant, ça va être suivi par un coach, mais c'est comme ça que ça s'est passé à l'époque
+                comme avec un grand travail et de grandes douleurs. Car pour en venir au moindre détail, quel est notre exercice ?
+                pas de travail, sauf pour en tirer quelque avantage. Ne vous précipitez pas dans la maison
+                critiquer...</p>
+            </div>
+
+          </div>
+          <div class="review_author col_40p">
+            <div class="avatar">
+              <img alt="avatar" src="assets/images/avatar/4.jpeg"/>
+            </div>
+            <h4>Kamila Lewitt</h4>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <section class="books">
+
+
+      <h2>Livres similaires</h2>
+
+      <div class="wrap book_main_list">
+        <div class="book">
+          <a href="book.html">
+            <img class="cover" alt="okładka" src="assets/images/covers/ka.jpg"/>
+            <div class="info">
+              <h5>Kamienie na szaniec</h5>
+            </div>
+          </a>
+        </div>
+        <div class="book">
+          <a href="book.html">
+            <img class="cover" alt="okładka" src="assets/images/covers/harry.jpg"/>
+            <div class="info">
+              <h5>Harry Potter i Więzień Azkabanu</h5>
+            </div>
+          </a>
+        </div>
+        <div class="book">
+          <a href="book.html">
+            <img class="cover" alt="okładka" src="assets/images/covers/pies.jpg"/>
+            <div class="info">
+              <h5>Był sobie pies</h5>
+            </div>
+          </a>
+        </div>
+        <div class="book">
+          <a href="book.html">
+            <img class="cover" alt="okładka" src="assets/images/covers/naznaczeni.jpg"/>
+            <div class="info">
+              <h5>Naznaczeni śmiercią</h5>
+            </div>
+          </a>
+        </div>
+        <div class="book">
+          <a href="book.html">
+            <img class="cover" alt="okładka" src="assets/images/covers/mitologia.jpg"/>
+            <div class="info">
+              <h5>Mitologia nordycka</h5>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </section>
+    <div class="footer">
+      <div class="footer-content">
+        <div class="footer-section about">
+          <h3>À propos de nous</h3>
+          <p>Ce site est dédié aux amateurs de livres. Découvrez de nouveaux livres, partagez vos avis, et
+            connectez-vous avec une communauté passionnée de lecture.</p>
+          <div class="contact">
+            <span><i class="icon-phone"></i> &nbsp; +33 1 23 45 67 89</span>
+            <span><i class="icon-envelope"></i> &nbsp; contactlivres.com</span>
+          </div>
+          <div class="socials">
+            <a href="#"><i class="icon-facebook"></i></a>
+            <a href="#"><i class="icon-twitter"></i></a>
+            <a href="#"><i class="icon-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-section links">
+          <h3>Liens rapides</h3>
+          <ul>
+            <li><a href="/">Page d'accueil</a></li>
+            <li><a href="/books">Livres</a></li>
+            <li><a href="review-page.html">Entrées</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section newsletter">
+          <h3>Newsletter</h3>
+          <p>Abonnez-vous à notre newsletter pour rester informé des dernières sorties de livres et critiques
+            populaires.</p>
+          <form action="newsletter.html" method="post">
+            <input type="email" name="email" class="text-input newsletter-input"
+                   placeholder="Entrez votre email...">
+            <input type="submit" value="S'abonner" class="newsletter-btn">
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2024 livres.com | Tous droits réservés.
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/js/top_bg.js"></script>
+<script src="assets/js/anim_js.js"></script>
+<script src="assets/js/vote.js"></script>
