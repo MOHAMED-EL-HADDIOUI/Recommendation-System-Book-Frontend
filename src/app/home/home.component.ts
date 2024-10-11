@@ -2,35 +2,50 @@ import { Book, BooksDTOS } from "../models/book";
 import { BookServiceService } from "../service/book-service.service";
 import { async, catchError, Observable, throwError } from "rxjs";
 import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
+import {FormGroup, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import { CommonModule } from '@angular/common';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {AuthService} from "../service/AuthService";
+import {AuthInterceptor} from "../security/auth.interceptor";
+import {jwtDecode} from "jwt-decode";
+import {UserServiceService} from "../service/user-service.service";
 
 @Component({
-  selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, ReactiveFormsModule],
-  providers: [BookServiceService],
+  selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  imports: [CommonModule, ReactiveFormsModule,HttpClientModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    BookServiceService,UserServiceService
+  ]
 })
 
 export class HomeComponent implements OnInit {
   data!: Observable<BooksDTOS>;
   books!: Book[];
   currentPagee: number = 0;
-  searchFormGroup!: UntypedFormGroup;
+  searchFormGroup!: FormGroup;
   totalPages: number = 0;
   errorMessage: string | undefined;
 
-  constructor(private bookServiceService: BookServiceService,private router:Router, private fb: UntypedFormBuilder) { }
+  constructor(private bookServiceService: BookServiceService,
+              public authService: AuthService,
+              private router:Router, private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
       keyword: this.fb.control("")
     });
     this.searchBooks();
+    this.getInfo();
+
   }
 
   // Changez private en public ici
@@ -48,6 +63,18 @@ export class HomeComponent implements OnInit {
       this.books = booksDTOS.bookDTOList;
     });
   }
+  getInfo():void{
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        const username = decodedToken.sub;
+        this.authService.setUsername(username);
+      } catch (error) {
+      }
+
+    }
+  }
 
   previousPage(): void {
     if (this.currentPagee >= 1) {
@@ -64,6 +91,10 @@ export class HomeComponent implements OnInit {
   }
   navigateToBook(id_book: string) {
     this.router.navigate(['/book/', id_book]);
+  }
+  logout(): void {
+    this.authService.logout();  // Supprime le token
+    this.router.navigate(['/connexion']);  // Redirige vers la page de connexion
   }
 
 

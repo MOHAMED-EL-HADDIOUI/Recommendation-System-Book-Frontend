@@ -36,11 +36,11 @@
       <h2>S'inscrire</h2>
       <div class="signup_form" >
 
-        <form id="signup_form">
-          <label for="femail">E-mail:</label>
-          <input type="text" id="femail" name="femail" placeholder="Entrez votre email...">
+        <form id="signup_form" (ngSubmit)="login()">
+          <label for="femail">Username :</label>
+          <input type="text" id="femail" [(ngModel)]="credentials.gmail" name="femail" placeholder="Entrez votre email...">
           <label for="fpassword"> Mot de passe :</label>
-          <input type="password" id="fpassword" name="fpassword" placeholder="Entrez votre mot de passe...">
+          <input type="password" id="fpassword" [(ngModel)]="credentials.password" name="fpassword" placeholder="Entrez votre mot de passe...">
           <div id="msg">
           </div>
           <input type="submit" value="se connecter">

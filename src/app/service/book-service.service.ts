@@ -13,6 +13,7 @@ export class BookServiceService {
   public getBooks(): Observable<Array<Book>> {
     return this.http.get<Array<Book>>(environment.apiUrl + '/books');
   }
+
   getBook(id: string): Observable<Book> {
     return this.http.get<Book>(`http://localhost:9462/books/${id}`);
   }

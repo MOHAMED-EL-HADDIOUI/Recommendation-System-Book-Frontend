@@ -3,20 +3,35 @@
     <div class="logo"><img src="assets/images/logo.png" alt="logo"/></div>
     <nav id="navigation" class="top_menu">
       <ul id="menu_navigation" class="menu">
-        <li class=""><a href="/">Page d'accueil</a></li>
+        <li><a href="/">Page d'accueil</a></li>
         <li><a href="/books">Livres</a></li>
-        <li class="menu_has_children"><a href="review-page.html">Entrées</a>
+        <li class="menu_has_children">
+          <a href="review-page.html">Entrées</a>
           <ul class="sub-menu">
             <li><a href="review.html">Recenzja1</a></li>
             <li><a href="review.html">Recenzja3</a></li>
           </ul>
         </li>
         <li><a href="/contact">Contact</a></li>
-        <li class="menu_has_children"><a href="/connexion">Se connecter</a>
-          <ul class="sub-menu">
-            <li><a href="/inscription">Inscription</a></li>
-            <li><a href="/connexion">Connexion</a></li>
-          </ul>
+
+        <!-- Vérification si l'utilisateur est connecté -->
+        <li class="menu_has_children">
+          <ng-container *ngIf="authService.isAuthenticated(); else notConnected">
+            <!-- Afficher le nom d'utilisateur et l'option de déconnexion -->
+            <a href="#">Bienvenue, {{ authService.getUsername() }}</a>
+            <ul class="sub-menu">
+              <li><a href="/profil">Profil</a></li>
+              <li><a (click)="logout()">Déconnexion</a></li>
+            </ul>
+          </ng-container>
+          <!-- Afficher Connexion et Inscription si non connecté -->
+          <ng-template #notConnected>
+            <a href="/connexion">Se connecter</a>
+            <ul class="sub-menu">
+              <li><a href="/inscription">Inscription</a></li>
+              <li><a href="/connexion">Connexion</a></li>
+            </ul>
+          </ng-template>
         </li>
       </ul>
     </nav>
@@ -53,6 +68,31 @@
           <tr>
             <td>Année de sortie :</td>
             <td>{{book.yearOfPublication}}</td>
+          </tr>
+          <tr *ngIf="bookRating!=undefined">
+            <td>Votre évaluation du livre :</td>
+            <td>{{bookRating}}</td>
+          </tr>
+          <tr *ngIf="bookRating === undefined">
+            <td></td>
+            <td>
+              <ng-container *ngIf="!showRatingForm; else ratingForm">
+                <button (click)="showRatingForm = true">Évaluez le livre</button>
+              </ng-container>
+              <ng-template #ratingForm>
+                <div class="rating-form">
+            <span *ngFor="let star of [1, 2, 3, 4, 5,6,7,8,9,10]"
+                  (click)="rate(star)"
+                  [class.active]="star <= currentRating"
+                  style="cursor: pointer; font-size: 24px;">
+              ★
+            </span>
+                  <button (click)="submitRating()" class="btn btn-success ml-2">
+                    Envoyer
+                  </button>
+                </div>
+              </ng-template>
+            </td>
           </tr>
         </table>
       </div>
@@ -200,8 +240,6 @@
       </div>
     </section>
     <section class="books">
-
-
       <h2>Livres similaires</h2>
 
       <div class="wrap book_main_list">

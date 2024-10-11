@@ -1,40 +1,43 @@
 import {Component, OnInit} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
-import {async,catchError, Observable, throwError} from "rxjs";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {catchError, Observable, throwError} from "rxjs";
 import {Book, BooksDTOS} from "../models/book";
 import {BookServiceService} from "../service/book-service.service";
-import {HttpClientModule} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {CommonModule} from "@angular/common";
+import {HttpClientModule} from "@angular/common/http";
+import {AuthService} from "../service/AuthService";
+import {jwtDecode} from "jwt-decode";
 
 @Component({
-  selector: 'app-books',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, ReactiveFormsModule],
-  providers: [BookServiceService],
+  selector: 'app-books',
   templateUrl: './books.component.html',
-  styleUrl: './books.component.css'
+  styleUrls: ['./books.component.css'],
+  imports: [CommonModule, HttpClientModule, ReactiveFormsModule],
+  providers: [BookServiceService]
 })
 export class BooksComponent implements OnInit {
   data!: Observable<BooksDTOS>;
   books!: Book[];
   currentPagee: number = 0;
-  searchFormGroup!: UntypedFormGroup;
+  searchFormGroup!: FormGroup;
   totalPages: number = 0;
   errorMessage: string | undefined;
 
-  constructor(private bookServiceService: BookServiceService,private router:Router, private fb: UntypedFormBuilder) { }
+  constructor(private bookServiceService: BookServiceService,public authService: AuthService, private router: Router, private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
-      keyword: this.fb.control("")
+      keyword: ['', Validators.required]
     });
     this.searchBooks();
+    this.getInfo();
   }
 
-  // Changez private en public ici
   public searchBooks() {
-    let kw = this.searchFormGroup.value.keyword;
+    let kw = this.searchFormGroup.get('keyword')?.value;
     this.data = this.bookServiceService.searchBooks(kw, this.currentPagee).pipe(
       catchError(err => {
         this.errorMessage = err.message;
@@ -61,10 +64,24 @@ export class BooksComponent implements OnInit {
       this.searchBooks();
     }
   }
+
   navigateToBook(id_book: string) {
     this.router.navigate(['/book/', id_book]);
   }
+  logout(): void {
+    this.authService.logout();  // Supprime le token
+    this.router.navigate(['/connexion']);  // Redirige vers la page de connexion
+  }
+    getInfo():void{
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decodedToken: any = jwtDecode(token);
+                const username = decodedToken.sub;
+                this.authService.setUsername(username);
+            } catch (error) {
+            }
 
-
-  protected readonly async = async;
+        }
+    }
 }

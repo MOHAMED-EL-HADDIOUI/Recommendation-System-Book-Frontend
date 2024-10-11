@@ -11,11 +11,24 @@
         </ul>
       </li>
       <li><a href="/contact">Contact</a></li>
-      <li class="menu_has_children"><a href="/connexion">Se connecter</a>
-        <ul class="sub-menu">
-          <li><a href="/inscription">Inscription</a></li>
-          <li><a href="/connexion">Connexion</a></li>
-        </ul>
+      <!-- Vérification si l'utilisateur est connecté -->
+      <li class="menu_has_children">
+        <ng-container *ngIf="authService.isAuthenticated(); else notConnected">
+          <!-- Afficher le nom d'utilisateur et l'option de déconnexion -->
+          <a href="#">Bienvenue, {{ authService.getUsername() }}</a>
+          <ul class="sub-menu">
+            <li><a href="/profil">Profil</a></li>
+            <li><a (click)="logout()">Déconnexion</a></li>
+          </ul>
+        </ng-container>
+        <!-- Afficher Connexion et Inscription si non connecté -->
+        <ng-template #notConnected>
+          <a href="/connexion">Se connecter</a>
+          <ul class="sub-menu">
+            <li><a href="/inscription">Inscription</a></li>
+            <li><a href="/connexion">Connexion</a></li>
+          </ul>
+        </ng-template>
       </li>
     </ul>
   </nav>

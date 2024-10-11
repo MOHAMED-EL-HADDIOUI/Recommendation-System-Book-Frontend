@@ -1,0 +1,325 @@
+.title_r{
+  font-family: "Arial Black";
+}
+/* Styles généraux pour le pied de page */
+.footer {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 40px 0;
+  text-align: left;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  flex: 1;
+  padding: 10px 20px;
+}
+
+.footer-section h3 {
+  margin-bottom: 20px;
+  color: #ecf0f1;
+  font-size: 18px;
+}
+
+.footer-section p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer-section a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  color: #3498db;
+}
+
+/* Style pour la section "À propos" */
+.footer-section.about .contact span {
+  display: block;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.footer-section.about .socials a {
+  display: inline-block;
+  margin-right: 10px;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.footer-section.about .socials a:hover {
+  color: #3498db;
+}
+
+/* Style pour la section "Liens rapides" */
+.footer-section.links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section.links ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section.links ul li a {
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+/* Style pour la section "Newsletter" */
+.footer-section.newsletter form {
+  display: flex;
+  flex-direction: column;
+}
+
+.newsletter-input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.newsletter-btn {
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  padding: 10px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newsletter-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Style pour le bas du pied de page */
+.footer-bottom {
+  background-color: #131313;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+
+#kss
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0; /* Marge autour de la barre de recherche */
+}
+
+#searchInput {
+  width: 50%; /* Largeur de la barre de recherche */
+  padding: 15px; /* Espace intérieur */
+  border: 1px solid #ccc; /* Bordure grise */
+  border-radius: 20px; /* Coins arrondis */
+  font-size: 18px; /* Taille de la police */
+  transition: border-color 0.5s; /* Transition pour le changement de couleur de la bordure */
+}
+
+#searchInput:focus {
+  border-color: #0c0b0b; /* Couleur de la bordure lorsque l'input est actif */
+  outline: none; /* Supprimer le contour par défaut */
+}
+
+.search-button {
+  width: 10%;
+  padding: 20px; /* Espacement intérieur */
+  background-color: #0c0c0c; /* Couleur de fond */
+  color: white; /* Couleur du texte */
+  border: none; /* Pas de bordure */
+  border-radius: 20px; /* Coins arrondis */
+  cursor: pointer; /* Changer le curseur en main */
+  font-size: 16px; /* Taille de la police */
+  margin-left: 10px; /* Marge à gauche du bouton */
+  transition: background-color 0.3s; /* Transition pour le changement de couleur de fond */
+}
+
+.search-button:hover {
+  background-color: #2f2f33; /* Couleur de fond au survol */
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0; /* Marge autour de la pagination */
+  align-items: center;
+}
+
+.pagination button {
+  width: 10%;
+  padding: 10px 20px;
+  border: none;
+  background-color: #363535;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px; /* Coins arrondis */
+  margin: 0 10px; /* Marge autour des boutons */
+  transition: background-color 0.3s; /* Transition pour le changement de couleur de fond */
+}
+
+.pagination button:hover {
+  background-color: #222223;
+}
+
+
+.page-info {
+  font-size: 16px; /* Taille de la police */
+  margin: 0 10px; /* Marge autour de l'info de page */
+}
+
+#kkkkkkkkkkkk
+
+main {
+  padding: 1.5em 0;
+  justify-content: centre;
+  text-align: center;
+
+}
+.ip {
+  width: 16em;
+  height: 8em;
+}
+.ip__track {
+  stroke: hsl(var(--hue),90%,90%);
+  transition: stroke var(--trans-dur);
+}
+.ip__worm1,
+.ip__worm2 {
+  animation: worm1 2s linear infinite;
+}
+.ip__worm2 {
+  animation-name: worm2;
+}
+
+
+
+/* Animation */
+@keyframes worm1 {
+  from {
+    stroke-dashoffset: 0;
+  }
+  50% {
+    animation-timing-function: steps(1);
+    stroke-dashoffset: -358;
+  }
+  50.01% {
+    animation-timing-function: linear;
+    stroke-dashoffset: 358;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes worm2 {
+  from {
+    stroke-dashoffset: 358;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -358;
+  }
+}
+
+/*app-profil*/
+
+/* Conteneur général du profil */
+.profil {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre centré en haut */
+.profil h2 {
+  font-size: 35px;
+  color: #333;
+  text-align: center;
+  font-family: "Arial Black";
+}
+
+/* Flexbox pour aligner photo (gauche) et infos (droite) */
+.profil {
+  display: flex;
+  flex-direction: column; /* Colonne pour le titre */
+  align-items: center;
+}
+
+.profile-content {
+  display: flex;
+  justify-content: space-between; /* Espace entre la photo et les infos */
+  width: 100%;
+  max-width: 1000px; /* Largeur max pour la partie contenu */
+  align-items: center;
+  margin: 2%;
+}
+
+/* Photo de profil (à gauche) */
+.profile-header {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start; /* Aligner la photo à gauche */
+  margin-right: 30px; /* Marge à droite pour espacer de l'info */
+}
+
+.profile-photo {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid #157196;
+}
+
+/* Informations utilisateur (à droite) */
+.profile-info {
+  margin: 0 10%;
+  flex: 2;
+  font-size: 20px;
+  line-height: 1.6;
+  text-align: left; /* Alignement à droite */
+}
+
+.profile-info p {
+  margin: 5px 0;
+}
+
+.profile-info p strong {
+  color: #157196;
+  font-size: 24px;
+
+}
+
+/* Responsivité pour les petits écrans */
+@media (max-width: 900px) {
+  .profile-content {
+    flex-direction: column; /* Les parties deviennent empilées sur petit écran */
+    align-items: center;
+  }
+
+  .profile-info {
+    margin-left: 0;
+    text-align: center; /* Centrer les infos sur petit écran */
+  }
+}

@@ -18,7 +18,6 @@
             <!-- Afficher le nom d'utilisateur et l'option de déconnexion -->
             <a href="#">Bienvenue, {{ authService.getUsername() }}</a>
             <ul class="sub-menu">
-              <li><a href="/profil">Profil</a></li>
               <li><a (click)="logout()">Déconnexion</a></li>
             </ul>
           </ng-container>
@@ -44,19 +43,28 @@
 </div>
 <div id="main">
   <div class="content full_width">
-    <section class="books">
-      <h2 class="title_r">Chercher des livres</h2>
-      <div class="search-container">
-        <form [formGroup]="searchFormGroup" (ngSubmit)="searchBooks()">
-          <input formControlName="keyword" type="text" id="searchInput" placeholder="Rechercher un livre..."/>
-          <button class="search-button" type="submit">Rechercher</button>
-        </form>
+    <section class="profil">
+      <h2>Profil de {{infoUser_.nom}} {{infoUser_.prenom}}</h2>
+      <div class="profile-content">
+        <div class="profile-header">
+          <img src="assets/images/avatar/logo.png" alt="Photo de profil" class="profile-photo">
+        </div>
+        <div class="profile-info">
+          <p><strong>Localisation :</strong> {{infoUser_.location}}</p>
+          <p><strong>Âge :</strong> {{infoUser_.age}} ans</p>
+          <p><strong>Téléphone :</strong> {{infoUser_.tel}}</p>
+          <p><strong>Email :</strong> {{infoUser_.gmail}}</p>
+        </div>
       </div>
+    </section>
+    <section class="books">
+      <h2>Livres que vous avez notés</h2>
+
       <div class="wrap book_main_list">
-        <ng-container *ngIf="data |async as listBooks; else failureOrLading">
+        <ng-container *ngIf="data |async as listBooks; else failureOrLading" >
           <div class="book" *ngFor="let c of listBooks.bookDTOList">
             <a (click)="navigateToBook(c.isbn)">
-              <img class="cover" alt="okładka" src="{{c.imageURLM}}"/>
+              <img class="cover" alt="okładka" src="{{c.imageURLM}}" />
               <div class="info">
                 <h5>{{c.bookTitle}}</h5>
               </div>
@@ -74,16 +82,16 @@
               <svg class="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#5ebd3e"/>
-                    <stop offset="33%" stop-color="#ffb900"/>
-                    <stop offset="67%" stop-color="#f78200"/>
-                    <stop offset="100%" stop-color="#e23838"/>
+                    <stop offset="0%" stop-color="#5ebd3e" />
+                    <stop offset="33%" stop-color="#ffb900" />
+                    <stop offset="67%" stop-color="#f78200" />
+                    <stop offset="100%" stop-color="#e23838" />
                   </linearGradient>
                   <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
-                    <stop offset="0%" stop-color="#e23838"/>
-                    <stop offset="33%" stop-color="#973999"/>
-                    <stop offset="67%" stop-color="#009cdf"/>
-                    <stop offset="100%" stop-color="#5ebd3e"/>
+                    <stop offset="0%" stop-color="#e23838" />
+                    <stop offset="33%" stop-color="#973999" />
+                    <stop offset="67%" stop-color="#009cdf" />
+                    <stop offset="100%" stop-color="#5ebd3e" />
                   </linearGradient>
                 </defs>
                 <g fill="none" stroke-linecap="round" stroke-width="16">
@@ -92,10 +100,8 @@
                     <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
                   </g>
                   <g stroke-dasharray="180 656">
-                    <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0"
-                          d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
-                    <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358"
-                          d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+                    <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0" d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                    <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358" d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
                   </g>
                 </g>
               </svg>
@@ -105,9 +111,8 @@
       </div>
       <div class="pagination">
         <button (click)="previousPage()" [class.disabled]="currentPagee === 0">Précédent</button>
-        <span class="page-info">Page <span id="currentPage">{{currentPagee}}</span> / <span
-          id="totalPages">{{totalPages}}</span></span>
-        <button (click)="nextPage() " [class.disabled]="currentPagee >= totalPages-1">Suivant</button>
+        <span class="page-info">Page <span id="currentPage">{{currentPagee}}</span> / <span id="totalPages">{{totalPages}}</span></span>
+        <button (click)="nextPage() "[class.disabled]="currentPagee >= totalPages-1">Suivant</button>
       </div>
 
     </section>
@@ -119,7 +124,7 @@
             connectez-vous avec une communauté passionnée de lecture.</p>
           <div class="contact">
             <span><i class="icon-phone"></i> &nbsp; +33 1 23 45 67 89</span>
-            <span><i class="icon-envelope"></i> &nbsp; contactlivres.com</span>
+            <span><i class="icon-envelope"></i> &nbsp; livres.com</span>
           </div>
           <div class="socials">
             <a href="#"><i class="icon-facebook"></i></a>

@@ -191,4 +191,46 @@
     margin: 15px;
 }
 
+table button {
+  width: 30%;
+  padding: 10px 20px;
+  border: none;
+  background-color: #363535;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px; /* Coins arrondis */
+  margin: 0 10px; /* Marge autour des boutons */
+  transition: background-color 0.3s; /* Transition pour le changement de couleur de fond */
+}
+table button:hover {
+  background-color: #222223;
+}
 
+
+
+
+/* book.component.css */
+.rating-form {
+  display: inline-block;
+}
+.rating-form span {
+  color: #ddd;
+  transition: color 0.2s;
+}
+.rating-form span.active,
+.rating-form span:hover {
+  color: gold;
+}
+button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+button:hover {
+  background-color: #45a049;
+}

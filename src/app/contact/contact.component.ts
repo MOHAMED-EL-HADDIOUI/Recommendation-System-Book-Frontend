@@ -1,15 +1,42 @@
-import { Component } from '@angular/core';
-import {ReactiveFormsModule} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {CommonModule, NgIf} from "@angular/common";
+import {BookServiceService} from "../service/book-service.service";
+import {AuthService} from "../service/AuthService";
+import {Router} from "@angular/router";
+import {jwtDecode} from "jwt-decode";
+import {HttpClientModule} from "@angular/common/http";
 
 @Component({
-  selector: 'app-contact',
   standalone: true,
-    imports: [
-        ReactiveFormsModule
-    ],
+  selector: 'app-contact',
   templateUrl: './contact.component.html',
+  imports: [
+    NgIf,HttpClientModule, ReactiveFormsModule,CommonModule
+  ],
   styleUrl: './contact.component.css'
 })
-export class ContactComponent {
+export class ContactComponent  implements OnInit {
+  ngOnInit(): void {
+    this.getInfo();
+  }
+  constructor(public authService: AuthService,private router: Router) {}
+
+  logout(): void {
+    this.authService.logout();  // Supprime le token
+    this.router.navigate(['/connexion']);  // Redirige vers la page de connexion
+  }
+  getInfo():void{
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        const username = decodedToken.sub;
+        this.authService.setUsername(username);
+      } catch (error) {
+      }
+
+    }
+  }
 
 }
