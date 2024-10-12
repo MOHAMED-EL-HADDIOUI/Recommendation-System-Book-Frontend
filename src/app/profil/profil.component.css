@@ -323,3 +323,20 @@ main {
     text-align: center; /* Centrer les infos sur petit écran */
   }
 }
+
+.profile-info button {
+  width: 50%;
+  padding: 10px 20px;
+  border: none;
+  background-color: #363535;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px; /* Coins arrondis */
+  margin: 20px 10px; /* Marge autour des boutons */
+  transition: background-color 0.3s; /* Transition pour le changement de couleur de fond */
+}
+
+.profile-info button:hover {
+  background-color: #222223;
+}

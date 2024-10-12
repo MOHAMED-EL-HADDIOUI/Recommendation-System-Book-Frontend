@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
+import Swal from "sweetalert2";
 
 @Component({
   standalone: true,
@@ -33,19 +34,46 @@ export class ConnexionComponent {
             const username = decodedToken.sub; // Assure-toi que la clé "sub" correspond bien au nom d'utilisateur
             // Stocker le nom de l'utilisateur pour l'utiliser dans d'autres composants
             this.authService.setUsername(username);
-
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Connexion réussie!',
+              showConfirmButton: false,
+              timer: 1500
+            });
             // Redirection vers la page d'accueil
             this.router.navigate(['/profil']);
           } catch (error) {
-            console.error('Erreur lors du décodage du token:', error);
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Une erreur est survenue lors de l\'inscription.',
+              text: 'Erreur lors du décodage du token.',
+              showConfirmButton: false,
+              timer: 2000
+            });
           }
 
         } else {
-          console.error('Échec de l\'authentification, aucun token reçu');
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Une erreur est survenue lors de l\'inscription.',
+            text: 'Échec de l\'authentification, aucun token reçu',
+            showConfirmButton: false,
+            timer: 2000
+          });
         }
       },
       (error) => {
-        console.error('Erreur lors de l\'authentification:', error);
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Erreur lors de l\'authentification:',
+          text: error.error?.message || 'Veuillez réessayer plus tard.',
+          showConfirmButton: false,
+          timer: 2000
+        });
       }
     );
   }

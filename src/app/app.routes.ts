@@ -8,9 +8,11 @@ import { ConnexionComponent } from "./connexion/connexion.component";
 import { InscriptionComponent } from "./inscription/inscription.component";
 import { AuthGuard } from "./security/auth.guard";
 import {ProfilComponent} from "./profil/profil.component";
+import {CreateprofileComponent} from "./createprofile/createprofile.component";
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'createprofile', component: CreateprofileComponent, canActivate: [AuthGuard] },
   { path: 'profil', component: ProfilComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, pathMatch: 'full' },
   { path: 'books', component: BooksComponent, pathMatch: 'full' },

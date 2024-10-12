@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import {HTTP_INTERCEPTORS, provideHttpClient, withFetch} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import {AuthInterceptor} from "./app/security/auth.interceptor";
@@ -14,5 +14,6 @@ bootstrapApplication(AppComponent, {
       useClass: AuthInterceptor,
       multi: true,
     },
+    HttpClient
   ]
 }).catch(err => console.error(err));

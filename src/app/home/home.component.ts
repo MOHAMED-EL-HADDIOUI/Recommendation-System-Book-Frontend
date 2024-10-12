@@ -4,7 +4,7 @@ import { async, catchError, Observable, throwError } from "rxjs";
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import { CommonModule } from '@angular/common';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthService} from "../service/AuthService";
 import {AuthInterceptor} from "../security/auth.interceptor";
@@ -23,7 +23,7 @@ import {UserServiceService} from "../service/user-service.service";
       useClass: AuthInterceptor,
       multi: true,
     },
-    BookServiceService,UserServiceService
+    BookServiceService,UserServiceService,HttpClient
   ]
 })
 

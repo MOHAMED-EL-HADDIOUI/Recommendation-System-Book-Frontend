@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("AuthInterceptor")
     const token = localStorage.getItem('token'); // Retrieve the JWT token
 
     if (token) {

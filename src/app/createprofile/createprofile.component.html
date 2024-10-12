@@ -12,13 +12,24 @@
           </ul>
         </li>
         <li><a href="/contact">Contact</a></li>
-        <li class="menu_has_children"><a href="/connexion">Se connecter</a>
-          <ul class="sub-menu">
-            <li><a href="/inscription">Inscription</a></li>
-            <li><a href="/connexion">Connexion</a></li>
-          </ul>
+        <li class="menu_has_children">
+          <ng-container *ngIf="authService.isAuthenticated(); else notConnected">
+            <!-- Afficher le nom d'utilisateur et l'option de déconnexion -->
+            <a href="#">Bienvenue, {{ authService.getUsername() }}</a>
+            <ul class="sub-menu">
+              <li><a href="/profil">Profil</a></li>
+              <li><a (click)="logout()">Déconnexion</a></li>
+            </ul>
+          </ng-container>
+          <!-- Afficher Connexion et Inscription si non connecté -->
+          <ng-template #notConnected>
+            <a href="/connexion">Se connecter</a>
+            <ul class="sub-menu">
+              <li><a href="/inscription">Inscription</a></li>
+              <li><a href="/connexion">Connexion</a></li>
+            </ul>
+          </ng-template>
         </li>
-
       </ul>
     </nav>
     <a href="javascript:void(0);" class="navigation_control"><i class="icon-menu"></i></a>
@@ -34,44 +45,34 @@
   <div class="content full_width">
     <section id="signup" class="signup" style="font-family: 'Arial Black'">
       <a id="log"></a>
-      <h2>S'inscrire</h2>
+      <h2>Mettre à jour</h2>
       <div class="signup_form" >
 
-        <form id="signup_form_" (ngSubmit)="register()">
-
+        <form  [formGroup]="profileForm" (ngSubmit)="updateProfile()">
 
           <label for="fnom">Nom :</label>
-          <input type="text" id="fnom" [(ngModel)]="credentials.nom" name="fnom" placeholder="Entrez votre nom..." required>
+          <input type="text" id="fnom"  formControlName="nom" name="fnom" placeholder="Entrez votre nom..." required>
 
           <label for="fprenom">Prenom :</label>
-          <input type="text" id="fprenom" [(ngModel)]="credentials.prenom" name="fprenom" placeholder="Entrez votre prenom..." required>
+          <input type="text" id="fprenom"  formControlName="prenom" name="fprenom" placeholder="Entrez votre prenom..." required>
 
           <label for="ftel">Tel :</label>
-          <input type="text" id="ftel" [(ngModel)]="credentials.tel" name="ftel" placeholder="Entrez votre tel..." required>
+          <input type="text" id="ftel"  formControlName="tel" name="ftel" placeholder="Entrez votre tel..." required>
 
           <label for="flocation">Location :</label>
-          <input type="text" id="flocation" [(ngModel)]="credentials.location" name="flocation" placeholder="Entrez votre location..." required>
+          <input type="text" id="flocation"  formControlName="location" name="flocation" placeholder="Entrez votre location..." required>
 
           <label for="fage">Age :</label>
-          <input type="text" id="fage" [(ngModel)]="credentials.age" name="fage" placeholder="Entrez votre age..." required>
+          <input type="text" id="fage"  formControlName="age" name="fage" placeholder="Entrez votre age..." required>
 
           <label for="femail">E-mail :</label>
-          <input type="text" id="femail" [(ngModel)]="credentials.gmail" name="femail" placeholder="Entrez votre email..." required>
+          <input type="text" id="femail"  formControlName="gmail" name="femail" placeholder="Entrez votre email..." required>
 
           <label for="fpassword">Mot de passe :</label>
-          <input type="password" id="fpassword" [(ngModel)]="credentials.password" name="fpassword" placeholder="Entrez votre mot de passe..." required>
+          <input type="password" id="fpassword"  formControlName="password" name="fpassword" placeholder="Entrez votre mot de passe..." required>
 
-          <label for="fpassword2">Répéter le mot de passe :</label>
-          <input type="password" id="fpassword2" [(ngModel)]="password2" name="fpassword2" placeholder="Répéter le mot de passe..." required>
+          <input type="submit" value="Mettre à jour">
 
-          <div class="error-msg" id="msg">
-          </div>
-
-          <input type="submit" value="S'inscrire">
-
-          <div class="links">
-            <a href="/connexion">J'ai déjà un compte</a>
-          </div>
         </form>
       </div>
     </section>

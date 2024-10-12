@@ -54,7 +54,7 @@ export class UserServiceService {
   }
 
 
-  rateBook(bookId: string, rating: number): Observable<any> {
+  public rateBook(bookId: string, rating: number): Observable<any> {
     const token = localStorage.getItem('token'); // Récupérer le token du localStorage
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -67,4 +67,12 @@ export class UserServiceService {
     return this.http.post(url,{}, { headers });
   }
 
+  updateUserProfile(updatedData: any): Observable<any> {
+    const token = localStorage.getItem('token'); // Récupérer le token du localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.put(`${environment.apiUrl}/users/update`, updatedData,{headers});
+  }
 }

@@ -39,6 +39,7 @@ export class ProfilComponent implements OnInit {
   ngOnInit(): void {
     this.getBooksRatedByUser();
     this.getInfo();
+    console.log(this.books)
   }
   public getBooksRatedByUser()
   {
@@ -76,7 +77,6 @@ export class ProfilComponent implements OnInit {
     this.infoUser.subscribe({
       next: (registerRequest: RegisterRequest) => {
         this.infoUser_ = registerRequest; // Store the received user data
-        console.log('User Info:', this.infoUser_); // Log the received user information
       },
       error: (err) => {
         console.error('Error fetching user info:', err); // Log any errors encountered
@@ -102,4 +102,7 @@ export class ProfilComponent implements OnInit {
   }
 
 
+  navigateToUpdateProfi() {
+    this.router.navigate(['/createprofile']);
+  }
 }

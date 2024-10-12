@@ -54,10 +54,11 @@
           <p><strong>Âge :</strong> {{infoUser_.age}} ans</p>
           <p><strong>Téléphone :</strong> {{infoUser_.tel}}</p>
           <p><strong>Email :</strong> {{infoUser_.gmail}}</p>
+          <p><strong></strong><button (click)="navigateToUpdateProfi()" >Mettre à jour</button></p>
         </div>
       </div>
     </section>
-    <section class="books">
+    <section class="books" *ngIf="books.length!=0">
       <h2>Livres que vous avez notés</h2>
 
       <div class="wrap book_main_list">
@@ -77,7 +78,7 @@
               {{errorMessage}}
             </div>
           </ng-container>
-          <ng-template #loading>
+          <ng-template #loading >
             <main>
               <svg class="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
                 <defs>
