@@ -8,76 +8,104 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {AuthService} from "../service/AuthService";
 import {jwtDecode} from "jwt-decode";
 import {UserServiceService} from "../service/user-service.service";
-import {Observable} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 
 @Component({
   standalone: true,
   selector: 'app-book',
   templateUrl: './book.component.html',
   styleUrl: './book.component.css',
-  imports: [CommonModule,HttpClientModule, ReactiveFormsModule],
-  providers: [BookServiceService,UserServiceService]
+  imports: [CommonModule, HttpClientModule, ReactiveFormsModule],
+  providers: [BookServiceService, UserServiceService]
 })
 export class BookComponent implements OnInit {
-    id_book: string | null = "";
-    book!: Book;
-    bookRating!:number;
-    bookRating_!:Observable<number>;
+  id_book: string | null = "";
+  book!: Book;
+  bookRating!: number;
+  bookRating_!: Observable<number>;
+
+  data!: Observable<BooksDTOS>;
+  books!: Book[];
+  currentPagee: number = 0;
+  errorMessage: string | undefined;
+
 
   showRatingForm = false;
   currentRating = 0;
 
   constructor(
-        private bookServiceService: BookServiceService,
-        private router: Router,
-        public authService: AuthService,
-        private route: ActivatedRoute,
-        private userServiceService :UserServiceService
-    ) { }
+    private bookServiceService: BookServiceService,
+    private router: Router,
+    public authService: AuthService,
+    private route: ActivatedRoute,
+    private userServiceService: UserServiceService
+  ) {
+  }
 
-    ngOnInit(): void {
-        this.route.paramMap.subscribe(params => {
-            this.id_book = params.get('id_book');
-            this.fetchBookDetails(this.id_book);
-        });
-        this.getInfo();
-        this.bookRating_ = this.userServiceService.getbookRating(this.id_book);
-        this.bookRating_.subscribe((bookRating_: number) => {
-          this.bookRating = bookRating_;
-        });
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.id_book = params.get('id_book');
+      this.fetchBookDetails(this.id_book);
+    });
+    this.getInfo();
+    this.bookRating_ = this.userServiceService.getbookRating(this.id_book);
+    this.bookRating_.subscribe((bookRating_: number) => {
+      this.bookRating = bookRating_;
+    });
+    this.getBooksRecommendForBook(this.id_book);
+    console.log(this.books)
 
-    }
+  }
 
-    fetchBookDetails(id_book: string | null): void {
-        if (id_book) {
-            this.bookServiceService.getBook(id_book).subscribe(
-                (data: Book) => {
-                    this.book = data;
-                },
-                (error) => {
-                    console.error('Error fetching book details:', error);
-                }
-            );
+  fetchBookDetails(id_book: string | null): void {
+    if (id_book) {
+      this.bookServiceService.getBook(id_book).subscribe(
+        (data: Book) => {
+          this.book = data;
+        },
+        (error) => {
+          console.error('Error fetching book details:', error);
         }
+      );
     }
+  }
+
   logout(): void {
     this.authService.logout();  // Supprime le token
     this.router.navigate(['/connexion']);  // Redirige vers la page de connexion
   }
-    getInfo():void{
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                const decodedToken: any = jwtDecode(token);
-                const username = decodedToken.sub;
-                this.authService.setUsername(username);
-            } catch (error) {
-            }
 
-        }
+  getInfo(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        const username = decodedToken.sub;
+        this.authService.setUsername(username);
+      } catch (error) {
+      }
+
     }
+  }
+
   rate(star: number) {
     this.currentRating = star;
+  }
+  navigateToBook(id_book: string) {
+    this.router.navigate(['/book/', id_book]);
+  }
+
+  public getBooksRecommendForBook(id_book: string | null) {
+    this.data = this.bookServiceService.getBooksRecommendForBook(id_book, this.currentPagee).pipe(
+      catchError(err => {
+        this.errorMessage = err.message;
+        return throwError(err);
+      })
+    );
+
+    this.data.subscribe((booksDTOS: BooksDTOS) => {
+      this.books = booksDTOS.bookDTOList;
+    });
   }
 
   submitRating() {

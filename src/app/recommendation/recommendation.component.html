@@ -5,9 +5,6 @@
       <ul id="menu_navigation" class="menu">
         <li class=""><a href="/">Page d'accueil</a></li>
         <li><a href="/books">Livres</a></li>
-        <li class="menu_has_children" *ngIf="authService.isAuthenticated()">
-          <a href="/recommendation">Livres de recommandations</a>
-        </li>
         <li><a href="/contact">Contact</a></li>
         <!-- Vérification si l'utilisateur est connecté -->
         <li class="menu_has_children">
@@ -15,6 +12,7 @@
             <!-- Afficher le nom d'utilisateur et l'option de déconnexion -->
             <a href="#">Bienvenue, {{ authService.getUsername() }}</a>
             <ul class="sub-menu">
+              <li><a href="/profil">Profil</a></li>
               <li><a (click)="logout()">Déconnexion</a></li>
             </ul>
           </ng-container>
@@ -40,26 +38,7 @@
 </div>
 <div id="main">
   <div class="content full_width">
-    <section class="profil">
-      <h2>Profil de {{infoUser_.nom}} {{infoUser_.prenom}}</h2>
-      <div class="profile-content">
-        <div class="profile-header">
-          <img src="assets/images/avatar/logo.png" alt="Photo de profil" class="profile-photo">
-        </div>
-        <div class="profile-info">
-          <p><strong>Localisation :</strong> {{infoUser_.location}}</p>
-          <p><strong>Âge :</strong> {{infoUser_.age}} ans</p>
-          <p><strong>Téléphone :</strong> {{infoUser_.tel}}</p>
-          <p><strong>Email :</strong> {{infoUser_.gmail}}</p>
-          <p><strong></strong>
-            <button (click)="navigateToUpdateProfi()">Mettre à jour</button>
-          </p>
-        </div>
-      </div>
-    </section>
-    <section class="books" *ngIf="books.length!=0">
-      <h2>Livres que vous avez notés</h2>
-
+    <section class="books">
       <div class="wrap book_main_list">
         <ng-container *ngIf="data |async as listBooks; else failureOrLading">
           <div class="book" *ngFor="let c of listBooks.bookDTOList">
@@ -127,7 +106,7 @@
             connectez-vous avec une communauté passionnée de lecture.</p>
           <div class="contact">
             <span><i class="icon-phone"></i> &nbsp; +33 1 23 45 67 89</span>
-            <span><i class="icon-envelope"></i> &nbsp; livres.com</span>
+            <span><i class="icon-envelope"></i> &nbsp; contactlivres.com</span>
           </div>
           <div class="socials">
             <a href="#"><i class="icon-facebook"></i></a>

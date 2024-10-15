@@ -4,12 +4,11 @@
     <ul id="menu_navigation" class="menu">
       <li class=""><a href="/">Page d'accueil</a></li>
       <li><a href="/books">Livres</a></li>
-      <li class="menu_has_children"><a href="review-page.html">Entrées</a>
-        <ul class="sub-menu">
-          <li><a href="review.html">Recenzja1</a></li>
-          <li><a href="review.html">Recenzja3</a></li>
-        </ul>
-      </li>
+      <ng-container *ngIf="authService.isAuthenticated(); else notConnected">
+        <li class="menu_has_children">
+          <a href="/recommendation">Livres de recommandations</a>
+        </li>
+      </ng-container>
       <li><a href="/contact">Contact</a></li>
       <!-- Vérification si l'utilisateur est connecté -->
       <li class="menu_has_children">

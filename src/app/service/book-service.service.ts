@@ -31,4 +31,9 @@ export class BookServiceService {
       `${environment.apiUrl}/books/search?keyword=${keyword}&page=${page}`
     );
   }
+  public getBooksRecommendForBook(id_book: string | null, page: number): Observable<BooksDTOS> {
+    return this.http.get<BooksDTOS>(
+      `${environment.apiUrl}/books/recommend/${id_book}?page=${page}`
+    );
+  }
 }

@@ -75,4 +75,18 @@ export class UserServiceService {
 
     return this.http.put(`${environment.apiUrl}/users/update`, updatedData,{headers});
   }
+
+  public getBooksrecommendforUser(page: number): Observable<BooksDTOS> {
+    // @ts-ignore
+    const token: string | null = localStorage.getItem('token'); // Added type annotation
+    if (!token) {
+      throw new Error('Token not found'); // Handle missing token scenario
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<BooksDTOS>(`${environment.apiUrl}/recommend?page=${page}`, {headers});
+  }
 }
