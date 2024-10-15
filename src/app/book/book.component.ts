@@ -9,6 +9,7 @@ import {AuthService} from "../service/AuthService";
 import {jwtDecode} from "jwt-decode";
 import {UserServiceService} from "../service/user-service.service";
 import {catchError, Observable, throwError} from "rxjs";
+import {BookratingService} from "../service/bookrating.service";
 
 @Component({
   standalone: true,
@@ -38,7 +39,8 @@ export class BookComponent implements OnInit {
     private router: Router,
     public authService: AuthService,
     private route: ActivatedRoute,
-    private userServiceService: UserServiceService
+    private userServiceService: UserServiceService,
+    private bookratingService:BookratingService
   ) {
   }
 
@@ -48,13 +50,11 @@ export class BookComponent implements OnInit {
       this.fetchBookDetails(this.id_book);
     });
     this.getInfo();
-    this.bookRating_ = this.userServiceService.getbookRating(this.id_book);
+    this.getBooksRecommendForBook(this.id_book);
+    this.bookRating_ = this.bookratingService.getbookRating(this.id_book);
     this.bookRating_.subscribe((bookRating_: number) => {
       this.bookRating = bookRating_;
     });
-    this.getBooksRecommendForBook(this.id_book);
-    console.log(this.books)
-
   }
 
   fetchBookDetails(id_book: string | null): void {
@@ -76,11 +76,9 @@ export class BookComponent implements OnInit {
   }
 
   getInfo(): void {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const username = localStorage.getItem('username');
+    if (username) {
       try {
-        const decodedToken: any = jwtDecode(token);
-        const username = decodedToken.sub;
         this.authService.setUsername(username);
       } catch (error) {
       }
@@ -110,9 +108,8 @@ export class BookComponent implements OnInit {
 
   submitRating() {
     if (this.id_book) {
-      console.log("this.currentRating")
       console.log(this.currentRating)
-      this.userServiceService.rateBook(this.id_book, this.currentRating).subscribe(
+      this.bookratingService.rateBook(this.id_book, this.currentRating).subscribe(
         () => {
           console.log('Book rated successfully');
           this.bookRating = this.currentRating;

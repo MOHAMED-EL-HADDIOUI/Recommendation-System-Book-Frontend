@@ -23,7 +23,7 @@ import {UserServiceService} from "../service/user-service.service";
       useClass: AuthInterceptor,
       multi: true,
     },
-    BookServiceService,UserServiceService,HttpClient
+    BookServiceService,UserServiceService
   ]
 })
 
@@ -63,12 +63,10 @@ export class HomeComponent implements OnInit {
       this.books = booksDTOS.bookDTOList;
     });
   }
-  getInfo():void{
-    const token = localStorage.getItem('token');
-    if (token) {
+  getInfo(): void {
+    const username = localStorage.getItem('username');
+    if (username) {
       try {
-        const decodedToken: any = jwtDecode(token);
-        const username = decodedToken.sub;
         this.authService.setUsername(username);
       } catch (error) {
       }

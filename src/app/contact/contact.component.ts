@@ -26,12 +26,10 @@ export class ContactComponent  implements OnInit {
     this.authService.logout();  // Supprime le token
     this.router.navigate(['/connexion']);  // Redirige vers la page de connexion
   }
-  getInfo():void{
-    const token = localStorage.getItem('token');
-    if (token) {
+  getInfo(): void {
+    const username = localStorage.getItem('username');
+    if (username) {
       try {
-        const decodedToken: any = jwtDecode(token);
-        const username = decodedToken.sub;
         this.authService.setUsername(username);
       } catch (error) {
       }

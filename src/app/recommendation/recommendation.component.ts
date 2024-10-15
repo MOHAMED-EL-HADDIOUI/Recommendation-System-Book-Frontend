@@ -28,7 +28,7 @@ export class RecommendationComponent implements OnInit{
   totalPages: number = 0;
   errorMessage: string | undefined;
 
-  constructor(private userServiceService :UserServiceService,public authService: AuthService, private router: Router, private fb: FormBuilder) {
+  constructor(private userServiceService :UserServiceService,private bookServiceService:BookServiceService,public authService: AuthService, private router: Router, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class RecommendationComponent implements OnInit{
   }
 
   public searchBooks() {
-    this.data = this.userServiceService.getBooksrecommendforUser(this.currentPagee).pipe(
+    this.data = this.bookServiceService.getBooksrecommendforUser(this.currentPagee).pipe(
       catchError(err => {
         this.errorMessage = err.message;
         return throwError(err);

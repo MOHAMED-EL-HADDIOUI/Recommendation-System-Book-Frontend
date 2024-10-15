@@ -48,7 +48,6 @@ export class InscriptionComponent {
           const token = response.access_token;
           this.authService.saveToken(token);  // Sauvegarde du token
           this.passwordsDoNotMatch = false;   // Réinitialiser l'état en cas de succès
-
           Swal.fire({
             position: 'center',
             icon: 'success',

@@ -6,24 +6,12 @@ import {environment} from "../../environments/environment";
 import {RegisterRequest} from "../models/RegisterRequest";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserServiceService {
+  private baseUrl = environment.apiUrl + '/api/v1/users'; // URL de l'API backend
+
   constructor(private http: HttpClient) {
-  }
-
-  public getBooksRatedByUser(page: number): Observable<BooksDTOS> {
-    // @ts-ignore
-    const token: string | null = localStorage.getItem('token'); // Added type annotation
-    if (!token) {
-      throw new Error('Token not found'); // Handle missing token scenario
-    }
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    return this.http.get<BooksDTOS>(`${environment.apiUrl}/bookRatings/books?page=${page}`, {headers});
   }
 
   public getInfoUser(): Observable<RegisterRequest> {
@@ -37,56 +25,17 @@ export class UserServiceService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.get<RegisterRequest>(`${environment.apiUrl}/user`, { headers });
-  }
-  public getbookRating(id_book: string | null): Observable<number> {
-    const token: string | null = localStorage.getItem('token'); // Retrieve token from localStorage
-
-    if (!token) {
-      throw new Error('Token not found'); // Handle the case where no token is found
-    }
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    return this.http.get<number>(`${environment.apiUrl}/bookRatings/`+id_book, { headers });
+    return this.http.get<RegisterRequest>(`${this.baseUrl}/get`, { headers });
   }
 
 
-  public rateBook(bookId: string, rating: number): Observable<any> {
-    const token = localStorage.getItem('token'); // Récupérer le token du localStorage
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    // Construire l'URL de l'API avec le bookId et rating dans le chemin
-    const url = `${environment.apiUrl}/bookRatings/${bookId}/${rating}`;
-
-    // Effectuer la requête POST
-    return this.http.post(url,{}, { headers });
-  }
 
   updateUserProfile(updatedData: any): Observable<any> {
     const token = localStorage.getItem('token'); // Récupérer le token du localStorage
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-
     return this.http.put(`${environment.apiUrl}/users/update`, updatedData,{headers});
   }
 
-  public getBooksrecommendforUser(page: number): Observable<BooksDTOS> {
-    // @ts-ignore
-    const token: string | null = localStorage.getItem('token'); // Added type annotation
-    if (!token) {
-      throw new Error('Token not found'); // Handle missing token scenario
-    }
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    return this.http.get<BooksDTOS>(`${environment.apiUrl}/recommend?page=${page}`, {headers});
-  }
 }

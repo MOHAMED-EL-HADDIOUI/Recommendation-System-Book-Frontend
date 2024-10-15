@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { environment } from '../../environments/environment'; // Utiliser les variables d'environnement
+import { environment } from '../../environments/environment';
+import {jwtDecode} from "jwt-decode"; // Utiliser les variables d'environnement
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,15 @@ export class AuthService {
   // Méthode pour stocker le token JWT
   saveToken(token: string): void {
     localStorage.setItem('token', token);
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        const username = decodedToken.sub;
+        localStorage.setItem('username', username);
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    }
   }
 
   // Méthode pour déconnecter l'utilisateur et supprimer le token

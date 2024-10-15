@@ -34,7 +34,7 @@ export class ProfilComponent implements OnInit {
   infoUser !:Observable<RegisterRequest>;
   infoUser_ !:RegisterRequest;
 
-  constructor(public authService: AuthService,private router: Router,private userServiceService :UserServiceService) {
+  constructor(public authService: AuthService,private router: Router,private userServiceService :UserServiceService,private bookServiceService:BookServiceService) {
   }
   ngOnInit(): void {
     this.getBooksRatedByUser();
@@ -43,7 +43,7 @@ export class ProfilComponent implements OnInit {
   }
   public getBooksRatedByUser()
   {
-    this.data = this.userServiceService.getBooksRatedByUser(this.currentPagee).pipe(
+    this.data = this.bookServiceService.getBooksRatedByUser(this.currentPagee).pipe(
       catchError(err => {
         this.errorMessage = err.message;
         return throwError(err);
@@ -62,16 +62,13 @@ export class ProfilComponent implements OnInit {
   }
   getInfo(): void {
     const token = localStorage.getItem('token');
-    if (token) {
+    const username = localStorage.getItem('username');
+    if (username) {
       try {
-        const decodedToken: any = jwtDecode(token);
-        const username = decodedToken.sub;
-        this.authService.setUsername(username); // Set username in authService if needed
+        this.authService.setUsername(username);
       } catch (error) {
-        console.error('Error decoding token:', error);
       }
     }
-
     this.infoUser = this.userServiceService.getInfoUser();
 
     this.infoUser.subscribe({

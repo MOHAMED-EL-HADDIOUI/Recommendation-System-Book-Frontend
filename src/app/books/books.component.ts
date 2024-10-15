@@ -25,7 +25,7 @@ export class BooksComponent implements OnInit {
   totalPages: number = 0;
   errorMessage: string | undefined;
 
-  constructor(private bookServiceService: BookServiceService,public authService: AuthService, private router: Router, private fb: FormBuilder) {
+  constructor(private bookServiceService: BookServiceService, public authService: AuthService, private router: Router, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -68,20 +68,20 @@ export class BooksComponent implements OnInit {
   navigateToBook(id_book: string) {
     this.router.navigate(['/book/', id_book]);
   }
+
   logout(): void {
     this.authService.logout();  // Supprime le token
     this.router.navigate(['/connexion']);  // Redirige vers la page de connexion
   }
-    getInfo():void{
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                const decodedToken: any = jwtDecode(token);
-                const username = decodedToken.sub;
-                this.authService.setUsername(username);
-            } catch (error) {
-            }
 
-        }
+  getInfo(): void {
+    const username = localStorage.getItem('username');
+    if (username) {
+      try {
+        this.authService.setUsername(username);
+      } catch (error) {
+      }
+
     }
+  }
 }

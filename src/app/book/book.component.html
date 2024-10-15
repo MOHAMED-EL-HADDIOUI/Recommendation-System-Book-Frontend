@@ -69,7 +69,7 @@
             <td>Votre évaluation du livre :</td>
             <td>{{bookRating}}</td>
           </tr>
-          <tr *ngIf="bookRating === undefined">
+          <tr *ngIf="bookRating === undefined && authService.isAuthenticated()">
             <td></td>
             <td>
               <ng-container *ngIf="!showRatingForm; else ratingForm">

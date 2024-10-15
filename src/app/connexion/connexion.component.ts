@@ -34,6 +34,7 @@ export class ConnexionComponent {
             const username = decodedToken.sub; // Assure-toi que la clé "sub" correspond bien au nom d'utilisateur
             // Stocker le nom de l'utilisateur pour l'utiliser dans d'autres composants
             this.authService.setUsername(username);
+
             Swal.fire({
               position: 'center',
               icon: 'success',
