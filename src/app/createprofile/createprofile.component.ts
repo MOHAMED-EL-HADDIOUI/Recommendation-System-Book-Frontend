@@ -34,14 +34,13 @@ export class CreateprofileComponent implements OnInit {
 
   ngOnInit(): void {
     // Initialisation du formulaire avec des validators si nécessaire
+
     this.profileForm = this.fb.group({
       prenom: ['', Validators.required],
       nom: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(1)]],
       location: [''],
       tel: ['', Validators.pattern(/^(\+?\d{1,3}[- ]?)?\d{10}$/)], // Exemple de validation pour le téléphone
-      gmail: ['', [Validators.required, Validators.email]], // Validation pour l'email
-      password: ['', Validators.required]
     });
 
     // Charger les informations de l'utilisateur
@@ -78,6 +77,7 @@ export class CreateprofileComponent implements OnInit {
   }
 
   updateProfile() {
+    console.log(this.profileForm)
     if (this.profileForm.valid) {
       const userId = 1;  // L'ID de l'utilisateur (à remplacer par la bonne logique)
       this.userServiceService.updateUserProfile(this.profileForm.value).subscribe(

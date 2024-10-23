@@ -1,11 +1,15 @@
 version: '3.8'
 
 services:
-  frontend:
+  recommendation-system-book-frontend:
     build:
-      context: .
+      context: .  # Assurez-vous que le Dockerfile et le code sont dans le même répertoire
       dockerfile: Dockerfile
     ports:
-      - "4200:4200"
-    dns:
-      - 8.8.8.8
+      - "80:80"
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge

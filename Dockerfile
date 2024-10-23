@@ -1,30 +1,32 @@
-# Use the official Node.js image as the base image
-FROM node:20.11.1 AS build
+# Stage 1: Build the Angular application
+FROM node:18 as build-stage
 
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json
-COPY package.json package-lock.json ./
+# Copy the package.json and package-lock.json to the container
+COPY package*.json ./
 
-# Install the dependencies
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the application files
+# Copy the entire application to the container
 COPY . .
 
-# Build the Angular application
-RUN npm run build --prod
+# Build the Angular app in production mode
+RUN npm run build -- --configuration production
 
-# Stage 2: Serve the application using nginx
+# Stage 2: Serve the Angular app using NGINX
 FROM nginx:alpine
 
-# Copy the built files from the previous stage
-# Make sure the path matches the actual output path in your angular.json
-COPY --from=build /app/dist/Recommendation-System-Book-Frontend /usr/share/nginx/html
+# Copy your Nginx configuration file into the container
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80 (the default port for nginx)
+# Copy the built Angular app from the build stage to the NGINX public directory
+COPY --from=build-stage /app/dist/recommendation-system-book-frontend/browser /usr/share/nginx/html
+
+# Expose port 80
 EXPOSE 80
 
-# Start nginx
+# Start NGINX server
 CMD ["nginx", "-g", "daemon off;"]

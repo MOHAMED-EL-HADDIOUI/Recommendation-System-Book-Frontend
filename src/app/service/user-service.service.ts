@@ -35,7 +35,7 @@ export class UserServiceService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put(`${environment.apiUrl}/users/update`, updatedData,{headers});
+    return this.http.put(`${this.baseUrl}/update`, updatedData,{headers});
   }
 
 }
