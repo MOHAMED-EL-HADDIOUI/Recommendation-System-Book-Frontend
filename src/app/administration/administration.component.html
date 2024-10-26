@@ -1,0 +1,416 @@
+<div class="sidebar" id="sidebar">
+  <div class="h-header">
+    <button class="toggle-sidebar" (click)="toggleSidebar()">|☰|</button>
+  </div>
+  <div class="sidebar-header">
+    <h3>Panneau d'administration</h3>
+  </div>
+  <div class="menu-item" [class.active]="activeCard === 'dashboard'" (click)="switch('dashboard')">
+    <span class="icon">📊</span>
+    <span class="text">Dashboard</span>
+  </div>
+  <div class="menu-item" [class.active]="activeCard === 'books'" (click)="switch('books')">
+    <span class="icon">📚</span>
+    <span class="text">Books</span>
+  </div>
+  <div class="menu-item" [class.active]="activeCard === 'users'" (click)="switch('users')">
+    <span class="icon">👥</span>
+    <span class="text">Users</span>
+  </div>
+</div>
+
+<div class="main-content" id="mainContent">
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-value">{{size_books}}</div>
+      <div class="stat-label">Total Books</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{size_users}}</div>
+      <div class="stat-label">Total Users</div>
+    </div>
+  </div>
+  <div class="header" *ngIf="activeCard === 'books'" id="books-header">
+    <form [formGroup]="searchFormGroup" (ngSubmit)="searchBooks()">
+      <input formControlName="keyword" class="search-box" type="text" placeholder="Search Book..."/>
+      <select formControlName="choix_" class="search-choix">
+        <option value="title">Title</option>
+        <option value="isbn">ISBN</option>
+        <option value="editor">Editor</option>
+        <option value="autor">Autor</option>
+      </select>
+      <select formControlName="pagesize_" class="search-choix">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+      </select>
+      <button class="search-button" type="submit">Search</button>
+    </form>
+  </div>
+  <div class="header" *ngIf="activeCard === 'users'" id="users-header">
+    <form [formGroup]="searchFormGroup_" (ngSubmit)="searchUsers()">
+      <input formControlName="keyword" class="search-box" type="text" placeholder="Search User..."/>
+      <select formControlName="choix" class="search-choix">
+        <option value="nom">Nom</option>
+        <option value="prenom">Prénom</option>
+        <option value="gmail">Gmail</option>
+        <option value="location">Location</option>
+      </select>
+      <select formControlName="pagesize" class="search-choix">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+      </select>
+      <button class="search-button" type="submit">Search</button>
+    </form>
+  </div>
+  <div class="card" *ngIf="activeCard === 'dashboard'" id="dashboard-section">
+    <div class="card-header">
+      <h2>Dashboard</h2>
+    </div>
+    <div class="card-body">
+      <h3>Most Rated Books</h3>
+      <div class="book-ratings">
+        <div class="book" *ngFor="let book of topBooks; let i = index">
+          <span class="book-title">{{ book.bookTitle }}</span>
+          <span class="rating-value">{{ book.avgRating }}</span>
+          <div
+            class="rating-bar"
+            [style.width]="(book.avgRating * 4) + '%'"
+            [style.backgroundColor]="colors[i]">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card" *ngIf="activeCard === 'books'" id="books-section">
+  <div class="card-header">
+    <h2>Books Catalog</h2>
+    <button class="btn btn-success" style="width: 20%;" (click)="openModal('bookModal')">+ Add Book</button>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>ISBN</th>
+      <th>Title</th>
+      <th>Autor</th>
+      <th>Editor</th>
+      <th>Year of release</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngIf="data |async as listBooks; else failureOrLading">
+      <tr *ngFor="let c of listBooks.bookDTOList">
+        <td>{{c.isbn}}</td>
+        <td>{{c.bookTitle}}</td>
+        <td>{{c.bookAuthor}}</td>
+        <td>{{c.publisher}}</td>
+        <td>{{c.yearOfPublication}}</td>
+        <td>
+          <button class="btn btn-primary" (click)="openModalBook('updateBookModal',c)">Éditer</button>
+          <button class="btn btn-danger" (click)="deleteBook(c.isbn)">Supprimer</button>
+        </td>
+      </tr>
+    </ng-container>
+    <ng-template #failureOrLading class="text-danger"
+                 style="align-content: center;align-items: center;justify-content: center;text-align: center;">
+      <ng-container *ngIf="errorMessage; else loading">
+        <div class="text-danger">
+          {{errorMessage}}
+        </div>
+      </ng-container>
+      <ng-template #loading>
+        <main>
+          <svg class="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#5ebd3e"/>
+                <stop offset="33%" stop-color="#ffb900"/>
+                <stop offset="67%" stop-color="#f78200"/>
+                <stop offset="100%" stop-color="#e23838"/>
+              </linearGradient>
+              <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
+                <stop offset="0%" stop-color="#e23838"/>
+                <stop offset="33%" stop-color="#973999"/>
+                <stop offset="67%" stop-color="#009cdf"/>
+                <stop offset="100%" stop-color="#5ebd3e"/>
+              </linearGradient>
+            </defs>
+            <g fill="none" stroke-linecap="round" stroke-width="16">
+              <g class="ip__track" stroke="#ddd">
+                <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+              </g>
+              <g stroke-dasharray="180 656">
+                <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0"
+                      d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358"
+                      d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+              </g>
+            </g>
+          </svg>
+        </main>
+      </ng-template>
+    </ng-template>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button (click)="previousPage()" [class.disabled]="currentPagee === 0">Précédent</button>
+    <span class="page-info">Page <span id="currentPage">{{currentPagee}}</span> / <span
+      id="totalPages">{{totalPages}}</span></span>
+    <button (click)="nextPage() " [class.disabled]="currentPagee >= totalPages-1">Suivant</button>
+  </div>
+</div>
+<div class="card" *ngIf="activeCard === 'users'" id="users-section">
+  <div class="card-header">
+    <h2>Users Catalog</h2>
+    <button class="btn btn-success" style="width: 20%;" (click)="openModal('userModal')">+ Add User</button>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>index</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Gmail</th>
+      <th>Phone</th>
+      <th>Age</th>
+      <th>Location</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngIf="data_ |async as listUsers; else failureOrLading">
+      <tr *ngFor="let c of listUsers.userDTOList; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ c.nom }}</td>
+        <td>{{ c.prenom }}</td>
+        <td>{{ c.gmail }}</td>
+        <td>{{ c.tel }}</td>
+        <td>{{ c.age }}</td>
+        <td>{{ c.location }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="openModalUser('updateUserModal',c)">Éditer</button>
+          <button class="btn btn-danger" (click)="deleteUser(c.id)">Supprimer</button>
+        </td>
+      </tr>
+    </ng-container>
+    <ng-template #failureOrLading class="text-danger"
+                 style="align-content: center;align-items: center;justify-content: center;text-align: center;">
+      <ng-container *ngIf="errorMessage; else loading">
+        <div class="text-danger">
+          {{errorMessage}}
+        </div>
+      </ng-container>
+      <ng-template #loading>
+        <main>
+          <svg class="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#5ebd3e"/>
+                <stop offset="33%" stop-color="#ffb900"/>
+                <stop offset="67%" stop-color="#f78200"/>
+                <stop offset="100%" stop-color="#e23838"/>
+              </linearGradient>
+              <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
+                <stop offset="0%" stop-color="#e23838"/>
+                <stop offset="33%" stop-color="#973999"/>
+                <stop offset="67%" stop-color="#009cdf"/>
+                <stop offset="100%" stop-color="#5ebd3e"/>
+              </linearGradient>
+            </defs>
+            <g fill="none" stroke-linecap="round" stroke-width="16">
+              <g class="ip__track" stroke="#ddd">
+                <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+              </g>
+              <g stroke-dasharray="180 656">
+                <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0"
+                      d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358"
+                      d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+              </g>
+            </g>
+          </svg>
+        </main>
+      </ng-template>
+    </ng-template>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button (click)="previousPage_()" [class.disabled]="currentPage_ === 0">Précédent</button>
+    <span class="page-info">Page <span>{{currentPage_}}</span> / <span
+    >{{totalPages_}}</span></span>
+    <button (click)="nextPage_() " [class.disabled]="currentPage_ >= totalPages_-1">Suivant</button>
+  </div>
+</div>
+<div id="bookModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" (click)="closeModal('bookModal')">&times;</span>
+    <h2>Add Book</h2>
+    <form id="bookForm" (ngSubmit)="saveBook()">
+      <div class="form-group">
+        <label>ISBN</label>
+        <input type="text" [(ngModel)]="addBook.isbn" name="isbn" required pattern="[0-9]{13}">
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" [(ngModel)]="addBook.bookTitle" name="bookTitle" required>
+      </div>
+      <div class="form-group">
+        <label>Autor</label>
+        <input type="text" [(ngModel)]="addBook.bookAuthor" name="bookAuthor" required>
+      </div>
+      <div class="form-group">
+        <label>image URLL</label>
+        <input type="url" [(ngModel)]="addBook.imageURLL" name="imageURLL" required>
+      </div>
+      <div class="form-group">
+        <label>image URLM</label>
+        <input type="url" [(ngModel)]="addBook.imageURLM" name="imageURLM" required>
+      </div>
+      <div class="form-group">
+        <label>image URLS</label>
+        <input type="url" [(ngModel)]="addBook.imageURLS" name="imageURLS" required>
+      </div>
+      <div class="form-group">
+        <label>Editor</label>
+        <input type="text" [(ngModel)]="addBook.publisher" name="publisher" required>
+      </div>
+      <div class="form-group">
+        <label>Year of release</label>
+        <input type="number" min="1000" [(ngModel)]="addBook.yearOfPublication" name="yearOfPublication" max="2024"
+               required>
+      </div>
+      <button type="submit" class="btn btn-success">Save</button>
+    </form>
+  </div>
+</div>
+<div id="userModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" (click)="closeModal('userModal')">&times;</span>
+    <h2>Add User</h2>
+    <form id="userForm" (ngSubmit)="saveUser()">
+      <div class="form-group">
+        <label>First name</label>
+        <input type="text" [(ngModel)]="addUser.nom" name="nom" required>
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" [(ngModel)]="addUser.prenom" name="prenom" required>
+      </div>
+      <div class="form-group">
+        <label>Age</label>
+        <input type="number" [(ngModel)]="addUser.age" name="age" min="15" max="130" required>
+      </div>
+      <div class="form-group">
+        <label>Gmail</label>
+        <input type="email" [(ngModel)]="addUser.gmail" name="gmail" required
+               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+               title="Please enter a valid email address">
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" [(ngModel)]="addUser.location" name="location" required>
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" [(ngModel)]="addUser.tel" name="tel" required pattern="[0-9]{10}"
+               title="Please enter a 10-digit phone number">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="addUser.password" name="password" required minlength="8" pattern=".{8,}"
+               title="Password must be at least 8 characters long">
+      </div>
+      <button type="submit" class="btn btn-success">Save</button>
+    </form>
+  </div>
+</div>
+<div id="updateBookModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" (click)="closeModal('updateBookModal')">&times;</span>
+    <h2>Update Book</h2>
+    <form id="updatebookForm" (ngSubmit)="updateBook_()">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" [(ngModel)]="updateBook.bookTitle" name="bookTitle" required>
+      </div>
+      <div class="form-group">
+        <label>Autor</label>
+        <input type="text" [(ngModel)]="updateBook.bookAuthor" name="bookAuthor" required>
+      </div>
+      <div class="form-group">
+        <label>image URLL</label>
+        <input type="url" [(ngModel)]="updateBook.imageURLL" name="imageURLL" required>
+      </div>
+      <div class="form-group">
+        <label>image URLM</label>
+        <input type="url" [(ngModel)]="updateBook.imageURLM" name="imageURLM" required>
+      </div>
+      <div class="form-group">
+        <label>image URLS</label>
+        <input type="url" [(ngModel)]="updateBook.imageURLS" name="imageURLS" required>
+      </div>
+      <div class="form-group">
+        <label>Editor</label>
+        <input type="text" [(ngModel)]="updateBook.publisher" name="publisher" required>
+      </div>
+      <div class="form-group">
+        <label>Year of release</label>
+        <input type="number" [(ngModel)]="updateBook.yearOfPublication" name="yearOfPublication" min="1000" max="2024"
+               required>
+      </div>
+      <button type="submit" class="btn btn-success">Save</button>
+    </form>
+  </div>
+</div>
+<div id="updateUserModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" (click)="closeModal('updateUserModal')">&times;</span>
+    <h2>Update User</h2>
+    <form id="updateuserForm" (ngSubmit)="updateUser_()">
+      <div class="form-group">
+        <label>First name</label>
+        <input type="text" [(ngModel)]="updateUser.nom" name="nom" required>
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" [(ngModel)]="updateUser.prenom" name="prenom" required>
+      </div>
+      <div class="form-group">
+        <label>Age</label>
+        <input type="number" [(ngModel)]="updateUser.age" name="age" min="15" max="130" required>
+      </div>
+      <div class="form-group">
+        <label>Gmail</label>
+        <input type="email" [(ngModel)]="updateUser.gmail" name="gmail" required
+               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+               title="Please enter a valid email address">
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" [(ngModel)]="updateUser.location" name="location" required>
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" [(ngModel)]="updateUser.tel" name="tel" required pattern="[0-9]{10}"
+               title="Please enter a 10-digit phone number">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="updateUser.password" name="password" required minlength="8" pattern=".{8,}"
+               title="Password must be at least 8 characters long">
+      </div>
+      <button type="submit" class="btn btn-success">Save</button>
+    </form>
+  </div>
+</div>
+
+

@@ -10,6 +10,7 @@ import { AuthGuard } from "./security/auth.guard";
 import {ProfilComponent} from "./profil/profil.component";
 import {CreateprofileComponent} from "./createprofile/createprofile.component";
 import {RecommendationComponent} from "./recommendation/recommendation.component";
+import {AdministrationComponent} from "./administration/administration.component";
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -21,7 +22,8 @@ export const routes: Routes = [
   { path: 'book/:id_book', component: BookComponent, pathMatch: 'full' },
   { path: 'contact', component: ContactComponent, pathMatch: 'full' },
   { path: 'connexion', component: ConnexionComponent },
-  { path: 'inscription', component: InscriptionComponent }
+  { path: 'inscription', component: InscriptionComponent },
+  {path :'administration',component: AdministrationComponent,canActivate: [AuthGuard]}
 ];
 
 @NgModule({

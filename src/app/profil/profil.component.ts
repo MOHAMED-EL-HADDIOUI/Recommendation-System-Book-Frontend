@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BookServiceService} from "../service/book-service.service";
 import {AuthService} from "../service/AuthService";
 import {Router} from "@angular/router";
-import {jwtDecode} from "jwt-decode";
 import {catchError, Observable, throwError} from "rxjs";
 import {Book, BooksDTOS} from "../models/book";
 import {UserServiceService} from "../service/user-service.service";

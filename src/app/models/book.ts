@@ -22,6 +22,8 @@ export class Book {
 
   // Large image URL
   public imageURLL: string;
+  public avgRating :number;
+  public ratingCount :number;
 
   constructor(
     ISBN: string,
@@ -31,7 +33,9 @@ export class Book {
     publisher: string,
     imageURLS: string,
     imageURLM: string,
-    imageURLL: string
+    imageURLL: string,
+    avgRating: number,
+    ratingCount :number
   ) {
     this.isbn = ISBN;
     this.bookTitle = bookTitle;
@@ -41,6 +45,8 @@ export class Book {
     this.imageURLS = imageURLS;
     this.imageURLM = imageURLM;
     this.imageURLL = imageURLL;
+    this.ratingCount = ratingCount;
+    this.avgRating = avgRating;
   }
 }
 export interface BooksDTOS {

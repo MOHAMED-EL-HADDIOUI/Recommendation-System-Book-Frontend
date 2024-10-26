@@ -7,7 +7,6 @@ import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {AuthService} from "../service/AuthService";
-import {jwtDecode} from "jwt-decode";
 
 @Component({
   standalone: true,
