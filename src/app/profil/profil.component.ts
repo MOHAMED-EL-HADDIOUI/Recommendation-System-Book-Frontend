@@ -96,9 +96,21 @@ export class ProfilComponent implements OnInit {
   navigateToBook(id_book: string) {
     this.router.navigate(['/book/', id_book]);
   }
+  isAdmin():boolean
+  {
+    if(this.authService.getRole()==="ADMIN")
+    {
+      return true;
+    }
+    return false ;
+  }
 
 
   navigateToUpdateProfi() {
     this.router.navigate(['/createprofile']);
   }
+
+    navigateToDashboard() {
+      this.router.navigate(['/administration']);
+    }
 }

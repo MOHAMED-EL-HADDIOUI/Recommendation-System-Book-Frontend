@@ -13,6 +13,7 @@ export class AuthService {
   private baseUrl = environment.apiUrl + '/api/v1/auth'; // URL de l'API backend
   private helper = new JwtHelperService(); // Initialisation de JwtHelperService
   private username: string | null = null; // Utilisation du type string | null
+  private role:string | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +26,15 @@ export class AuthService {
   getUsername(): string | null {
     return this.username;
   }
+  setRole(role: string): void {
+    this.role = role;
+  }
+
+  // Getter pour obtenir le role d'utilisateur
+  getRole(): string | null {
+    return this.role;
+  }
+
 
   // Méthode pour se connecter et obtenir le token JWT
   login(credentials: { gmail: string, password: string }): Observable<any> {
@@ -43,6 +53,8 @@ export class AuthService {
       try {
         const decodedToken: any = jwtDecode(token);
         const username = decodedToken.sub;
+        const role = decodedToken.role;
+        localStorage.setItem('role',role);
         localStorage.setItem('username', username);
       } catch (error) {
         console.error('Error decoding token:', error);
@@ -53,6 +65,8 @@ export class AuthService {
   // Méthode pour déconnecter l'utilisateur et supprimer le token
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
     this.username = null; // Reset username lors de la déconnexion
   }
 

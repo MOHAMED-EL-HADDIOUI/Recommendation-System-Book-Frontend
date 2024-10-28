@@ -22,7 +22,17 @@ export class BookServiceService {
   }
   deteteBook(id:string):Observable<any>
   {
-    return this.http.delete(`${this.baseUrl}/delete/${id}`);
+      // @ts-ignore
+      const token: string | null = localStorage.getItem('token'); // Added type annotation
+      if (!token) {
+          throw new Error('Token not found'); // Handle missing token scenario
+      }
+
+      const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+      });
+
+    return this.http.delete(`${this.baseUrl}/delete/${id}`,{headers});
   }
 
   public saveBook(book: Book): Observable<Book> {
@@ -51,8 +61,16 @@ export class BookServiceService {
     return this.http.put<Book>(`${this.baseUrl}/update/${id_book}`, book,{headers});
   }
   public getTop5Books():Observable<Book[]>{
-    console.log("getBooks")
-    return this.http.get<Book[]>(`${this.baseUrl}/findTop5ByWeightedRating`);
+      // @ts-ignore
+      const token: string | null = localStorage.getItem('token'); // Added type annotation
+      if (!token) {
+          throw new Error('Token not found'); // Handle missing token scenario
+      }
+
+      const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+      });
+    return this.http.get<Book[]>(`${this.baseUrl}/findTop5ByWeightedRating`,{headers});
   }
   public searchBooks(keyword: string, page: number): Observable<BooksDTOS> {
     return this.http.get<BooksDTOS>(
@@ -60,8 +78,17 @@ export class BookServiceService {
     );
   }
   public searchBooks_(keyword: string,choix: string, page: number,pagesize:number): Observable<BooksDTOS> {
+      // @ts-ignore
+      const token: string | null = localStorage.getItem('token'); // Added type annotation
+      if (!token) {
+          throw new Error('Token not found'); // Handle missing token scenario
+      }
+
+      const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+      });
     return this.http.get<BooksDTOS>(
-      `${this.baseUrl}/x/search?keyword=${keyword}&page=${page}&pagesize=${pagesize}&choix=${choix}`
+      `${this.baseUrl}/x/search/book?keyword=${keyword}&page=${page}&pagesize=${pagesize}&choix=${choix}`,{headers}
     );
   }
   public getBooksRecommendForBook(id_book: string | null, page: number): Observable<BooksDTOS> {

@@ -5,19 +5,41 @@
   <div class="sidebar-header">
     <h3>Panneau d'administration</h3>
   </div>
+  <div class="menu-item" (click)="navigateToHome()">
+    <span class="icon">🏠</span>
+    <span class="text">Back to Home</span>
+  </div>
+  <!-- Dashboard Menu Item -->
   <div class="menu-item" [class.active]="activeCard === 'dashboard'" (click)="switch('dashboard')">
     <span class="icon">📊</span>
     <span class="text">Dashboard</span>
   </div>
+
+  <!-- Books Menu Item -->
   <div class="menu-item" [class.active]="activeCard === 'books'" (click)="switch('books')">
     <span class="icon">📚</span>
     <span class="text">Books</span>
   </div>
+
+  <!-- Users Menu Item -->
   <div class="menu-item" [class.active]="activeCard === 'users'" (click)="switch('users')">
     <span class="icon">👥</span>
     <span class="text">Users</span>
   </div>
+
+  <!-- Username Display -->
+  <div class="menu-item user-info" (click)="navigateToProfil()">
+    <span class="icon">👤</span>
+    <span class="text">{{ infoUser_.nom }}</span>
+  </div>
+
+  <!-- Logout Menu Item -->
+  <div class="menu-item logout" (click)="logout()">
+    <span class="icon">🔓</span>
+    <span class="text">Logout</span>
+  </div>
 </div>
+
 
 <div class="main-content" id="mainContent">
   <div class="stats">
@@ -87,167 +109,167 @@
       </div>
     </div>
   </div>
-</div>
-<div class="card" *ngIf="activeCard === 'books'" id="books-section">
-  <div class="card-header">
-    <h2>Books Catalog</h2>
-    <button class="btn btn-success" style="width: 20%;" (click)="openModal('bookModal')">+ Add Book</button>
-  </div>
-  <table>
-    <thead>
-    <tr>
-      <th>ISBN</th>
-      <th>Title</th>
-      <th>Autor</th>
-      <th>Editor</th>
-      <th>Year of release</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <ng-container *ngIf="data |async as listBooks; else failureOrLading">
-      <tr *ngFor="let c of listBooks.bookDTOList">
-        <td>{{c.isbn}}</td>
-        <td>{{c.bookTitle}}</td>
-        <td>{{c.bookAuthor}}</td>
-        <td>{{c.publisher}}</td>
-        <td>{{c.yearOfPublication}}</td>
-        <td>
-          <button class="btn btn-primary" (click)="openModalBook('updateBookModal',c)">Éditer</button>
-          <button class="btn btn-danger" (click)="deleteBook(c.isbn)">Supprimer</button>
-        </td>
+  <div class="card" *ngIf="activeCard === 'books'" id="books-section">
+    <div class="card-header">
+      <h2>Books Catalog</h2>
+      <button class="btn btn-success" style="width: 20%;" (click)="openModal('bookModal')">+ Add Book</button>
+    </div>
+    <table>
+      <thead>
+      <tr>
+        <th>ISBN</th>
+        <th>Title</th>
+        <th>Autor</th>
+        <th>Editor</th>
+        <th>Year of release</th>
+        <th>Actions</th>
       </tr>
-    </ng-container>
-    <ng-template #failureOrLading class="text-danger"
-                 style="align-content: center;align-items: center;justify-content: center;text-align: center;">
-      <ng-container *ngIf="errorMessage; else loading">
-        <div class="text-danger">
-          {{errorMessage}}
-        </div>
+      </thead>
+      <tbody>
+      <ng-container *ngIf="data |async as listBooks; else failureOrLading">
+        <tr *ngFor="let c of listBooks.bookDTOList">
+          <td>{{c.isbn}}</td>
+          <td>{{c.bookTitle}}</td>
+          <td>{{c.bookAuthor}}</td>
+          <td>{{c.publisher}}</td>
+          <td>{{c.yearOfPublication}}</td>
+          <td>
+            <button class="btn btn-primary" (click)="openModalBook('updateBookModal',c)">Éditer</button>
+            <button class="btn btn-danger" (click)="deleteBook(c.isbn)">Supprimer</button>
+          </td>
+        </tr>
       </ng-container>
-      <ng-template #loading>
-        <main>
-          <svg class="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#5ebd3e"/>
-                <stop offset="33%" stop-color="#ffb900"/>
-                <stop offset="67%" stop-color="#f78200"/>
-                <stop offset="100%" stop-color="#e23838"/>
-              </linearGradient>
-              <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
-                <stop offset="0%" stop-color="#e23838"/>
-                <stop offset="33%" stop-color="#973999"/>
-                <stop offset="67%" stop-color="#009cdf"/>
-                <stop offset="100%" stop-color="#5ebd3e"/>
-              </linearGradient>
-            </defs>
-            <g fill="none" stroke-linecap="round" stroke-width="16">
-              <g class="ip__track" stroke="#ddd">
-                <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
-                <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+      <ng-template #failureOrLading class="text-danger"
+                   style="align-content: center;align-items: center;justify-content: center;text-align: center;">
+        <ng-container *ngIf="errorMessage; else loading">
+          <div class="text-danger">
+            {{errorMessage}}
+          </div>
+        </ng-container>
+        <ng-template #loading>
+          <main>
+            <svg class="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#5ebd3e"/>
+                  <stop offset="33%" stop-color="#ffb900"/>
+                  <stop offset="67%" stop-color="#f78200"/>
+                  <stop offset="100%" stop-color="#e23838"/>
+                </linearGradient>
+                <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
+                  <stop offset="0%" stop-color="#e23838"/>
+                  <stop offset="33%" stop-color="#973999"/>
+                  <stop offset="67%" stop-color="#009cdf"/>
+                  <stop offset="100%" stop-color="#5ebd3e"/>
+                </linearGradient>
+              </defs>
+              <g fill="none" stroke-linecap="round" stroke-width="16">
+                <g class="ip__track" stroke="#ddd">
+                  <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                  <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+                </g>
+                <g stroke-dasharray="180 656">
+                  <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0"
+                        d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                  <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358"
+                        d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+                </g>
               </g>
-              <g stroke-dasharray="180 656">
-                <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0"
-                      d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
-                <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358"
-                      d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
-              </g>
-            </g>
-          </svg>
-        </main>
+            </svg>
+          </main>
+        </ng-template>
       </ng-template>
-    </ng-template>
-    </tbody>
-  </table>
-  <div class="pagination">
-    <button (click)="previousPage()" [class.disabled]="currentPagee === 0">Précédent</button>
-    <span class="page-info">Page <span id="currentPage">{{currentPagee}}</span> / <span
-      id="totalPages">{{totalPages}}</span></span>
-    <button (click)="nextPage() " [class.disabled]="currentPagee >= totalPages-1">Suivant</button>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <button (click)="previousPage()" [class.disabled]="currentPagee === 0">Précédent</button>
+      <span class="page-info">Page <span id="currentPage">{{currentPagee}}</span> / <span
+        id="totalPages">{{totalPages}}</span></span>
+      <button (click)="nextPage() " [class.disabled]="currentPagee >= totalPages-1">Suivant</button>
+    </div>
   </div>
-</div>
-<div class="card" *ngIf="activeCard === 'users'" id="users-section">
-  <div class="card-header">
-    <h2>Users Catalog</h2>
-    <button class="btn btn-success" style="width: 20%;" (click)="openModal('userModal')">+ Add User</button>
-  </div>
-  <table>
-    <thead>
-    <tr>
-      <th>index</th>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Gmail</th>
-      <th>Phone</th>
-      <th>Age</th>
-      <th>Location</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <ng-container *ngIf="data_ |async as listUsers; else failureOrLading">
-      <tr *ngFor="let c of listUsers.userDTOList; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ c.nom }}</td>
-        <td>{{ c.prenom }}</td>
-        <td>{{ c.gmail }}</td>
-        <td>{{ c.tel }}</td>
-        <td>{{ c.age }}</td>
-        <td>{{ c.location }}</td>
-        <td>
-          <button class="btn btn-primary" (click)="openModalUser('updateUserModal',c)">Éditer</button>
-          <button class="btn btn-danger" (click)="deleteUser(c.id)">Supprimer</button>
-        </td>
+  <div class="card" *ngIf="activeCard === 'users'" id="users-section">
+    <div class="card-header">
+      <h2>Users Catalog</h2>
+      <button class="btn btn-success" style="width: 20%;" (click)="openModal('userModal')">+ Add User</button>
+    </div>
+    <table>
+      <thead>
+      <tr>
+        <th>index</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Gmail</th>
+        <th>Phone</th>
+        <th>Age</th>
+        <th>Location</th>
+        <th>Actions</th>
       </tr>
-    </ng-container>
-    <ng-template #failureOrLading class="text-danger"
-                 style="align-content: center;align-items: center;justify-content: center;text-align: center;">
-      <ng-container *ngIf="errorMessage; else loading">
-        <div class="text-danger">
-          {{errorMessage}}
-        </div>
+      </thead>
+      <tbody>
+      <ng-container *ngIf="data_ |async as listUsers; else failureOrLading">
+        <tr *ngFor="let c of listUsers.userDTOList; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ c.nom }}</td>
+          <td>{{ c.prenom }}</td>
+          <td>{{ c.gmail }}</td>
+          <td>{{ c.tel }}</td>
+          <td>{{ c.age }}</td>
+          <td>{{ c.location }}</td>
+          <td>
+            <button class="btn btn-primary" (click)="openModalUser('updateUserModal',c)">Éditer</button>
+            <button class="btn btn-danger" (click)="deleteUser(c.id)">Supprimer</button>
+          </td>
+        </tr>
       </ng-container>
-      <ng-template #loading>
-        <main>
-          <svg class="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#5ebd3e"/>
-                <stop offset="33%" stop-color="#ffb900"/>
-                <stop offset="67%" stop-color="#f78200"/>
-                <stop offset="100%" stop-color="#e23838"/>
-              </linearGradient>
-              <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
-                <stop offset="0%" stop-color="#e23838"/>
-                <stop offset="33%" stop-color="#973999"/>
-                <stop offset="67%" stop-color="#009cdf"/>
-                <stop offset="100%" stop-color="#5ebd3e"/>
-              </linearGradient>
-            </defs>
-            <g fill="none" stroke-linecap="round" stroke-width="16">
-              <g class="ip__track" stroke="#ddd">
-                <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
-                <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+      <ng-template #failureOrLading class="text-danger"
+                   style="align-content: center;align-items: center;justify-content: center;text-align: center;">
+        <ng-container *ngIf="errorMessage; else loading">
+          <div class="text-danger">
+            {{errorMessage}}
+          </div>
+        </ng-container>
+        <ng-template #loading>
+          <main>
+            <svg class="ip" viewBox="0 0 256 128" width="256px" height="128px" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#5ebd3e"/>
+                  <stop offset="33%" stop-color="#ffb900"/>
+                  <stop offset="67%" stop-color="#f78200"/>
+                  <stop offset="100%" stop-color="#e23838"/>
+                </linearGradient>
+                <linearGradient id="grad2" x1="1" y1="0" x2="0" y2="0">
+                  <stop offset="0%" stop-color="#e23838"/>
+                  <stop offset="33%" stop-color="#973999"/>
+                  <stop offset="67%" stop-color="#009cdf"/>
+                  <stop offset="100%" stop-color="#5ebd3e"/>
+                </linearGradient>
+              </defs>
+              <g fill="none" stroke-linecap="round" stroke-width="16">
+                <g class="ip__track" stroke="#ddd">
+                  <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                  <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+                </g>
+                <g stroke-dasharray="180 656">
+                  <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0"
+                        d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
+                  <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358"
+                        d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
+                </g>
               </g>
-              <g stroke-dasharray="180 656">
-                <path class="ip__worm1" stroke="url(#grad1)" stroke-dashoffset="0"
-                      d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56"/>
-                <path class="ip__worm2" stroke="url(#grad2)" stroke-dashoffset="358"
-                      d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64"/>
-              </g>
-            </g>
-          </svg>
-        </main>
+            </svg>
+          </main>
+        </ng-template>
       </ng-template>
-    </ng-template>
-    </tbody>
-  </table>
-  <div class="pagination">
-    <button (click)="previousPage_()" [class.disabled]="currentPage_ === 0">Précédent</button>
-    <span class="page-info">Page <span>{{currentPage_}}</span> / <span
-    >{{totalPages_}}</span></span>
-    <button (click)="nextPage_() " [class.disabled]="currentPage_ >= totalPages_-1">Suivant</button>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <button (click)="previousPage_()" [class.disabled]="currentPage_ === 0">Précédent</button>
+      <span class="page-info">Page <span>{{currentPage_}}</span> / <span
+      >{{totalPages_}}</span></span>
+      <button (click)="nextPage_() " [class.disabled]="currentPage_ >= totalPages_-1">Suivant</button>
+    </div>
   </div>
 </div>
 <div id="bookModal" class="modal">

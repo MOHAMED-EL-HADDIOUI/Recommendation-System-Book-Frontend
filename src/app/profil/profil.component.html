@@ -54,6 +54,9 @@
           <p><strong></strong>
             <button (click)="navigateToUpdateProfi()">Mettre à jour</button>
           </p>
+          <p *ngIf="isAdmin()"><strong></strong>
+            <button (click)="navigateToDashboard()">📊 Dashboard</button>
+          </p>
         </div>
       </div>
     </section>

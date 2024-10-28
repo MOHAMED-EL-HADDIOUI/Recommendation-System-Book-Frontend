@@ -273,23 +273,23 @@ main {
   width: 100%;
   max-width: 1000px; /* Largeur max pour la partie contenu */
   align-items: center;
-  margin: 2%;
+  margin: 1.5%;
 }
 
 /* Photo de profil (à gauche) */
 .profile-header {
+  margin: 0px;
   flex: 1;
   display: flex;
   justify-content: flex-start; /* Aligner la photo à gauche */
-  margin-right: 30px; /* Marge à droite pour espacer de l'info */
 }
 
 .profile-photo {
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 6px solid #157196;
+  width: 90%;
+  height: 90%;
+  border-radius: 5%;
+  object-fit: scale-down;
+  border: 5px solid #000000;
 }
 
 /* Informations utilisateur (à droite) */

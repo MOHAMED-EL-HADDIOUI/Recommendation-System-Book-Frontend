@@ -8,6 +8,9 @@ import {Book, BooksDTOS} from "../models/book";
 import {User, UsersDTO} from "../models/user";
 import Swal from "sweetalert2";
 import {BaseChartDirective} from "ng2-charts";
+import {RegisterRequest} from "../models/RegisterRequest";
+import {AuthService} from "../service/AuthService";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-administration',
@@ -24,7 +27,8 @@ import {BaseChartDirective} from "ng2-charts";
   styleUrls: ['./administration.component.css']
 })
 export class AdministrationComponent implements OnInit {
-
+  infoUser !:Observable<RegisterRequest>;
+  infoUser_ !:RegisterRequest;
   colors: string[] = ["#0b0f3b", "#11195d", "#14248f", "#172386", "#3447e8"];
   data!: Observable<BooksDTOS>;
   topBooks: Book[] = [];
@@ -92,7 +96,9 @@ export class AdministrationComponent implements OnInit {
   constructor(
     private userServiceService: UserServiceService,
     private bookServiceService: BookServiceService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public authService: AuthService,
+    private router: Router
   ) {
   }
 
@@ -112,6 +118,7 @@ export class AdministrationComponent implements OnInit {
     this.searchBooks();
     this.searchUsers();
     this.getSize();
+    this.getInfo();
   }
 
 
@@ -225,6 +232,27 @@ export class AdministrationComponent implements OnInit {
     if (modal) {
       modal.style.display = 'none';
     }
+  }
+  getInfo(): void {
+    const username = localStorage.getItem('username');
+    const role = localStorage.getItem('role');
+    if (username && role) {
+      try {
+        this.authService.setUsername(username);
+        this.authService.setRole(role);
+      } catch (error) {
+      }
+    }
+    this.infoUser = this.userServiceService.getInfoUser();
+
+    this.infoUser.subscribe({
+      next: (registerRequest: RegisterRequest) => {
+        this.infoUser_ = registerRequest; // Store the received user data
+      },
+      error: (err) => {
+        console.error('Error fetching user info:', err); // Log any errors encountered
+      }
+    });
   }
 
   getSize(): void {
@@ -452,6 +480,7 @@ export class AdministrationComponent implements OnInit {
         });
       }
     );
+    this.searchUsers();
   }
 
   deleteBook(id: string): void {
@@ -475,7 +504,21 @@ export class AdministrationComponent implements OnInit {
         });
       }
     );
+    this.searchBooks();
   }
 
 
+    logout() {
+      this.authService.logout();  // Supprime le token
+      this.router.navigate(['/connexion']);  // Redirige vers la page de connexion
+    }
+
+    navigateToHome() {
+      this.router.navigate(['/']);  // Redirige vers la page de home
+    }
+
+  navigateToProfil() {
+    this.router.navigate(['/profil']);  // Redirige vers la page de profil
+
+  }
 }
