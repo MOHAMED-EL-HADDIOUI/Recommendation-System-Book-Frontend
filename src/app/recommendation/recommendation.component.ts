@@ -8,6 +8,8 @@ import {AuthService} from "../service/AuthService";
 import {Router} from "@angular/router";
 import {jwtDecode} from "jwt-decode/build/esm";
 import {UserServiceService} from "../service/user-service.service";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthInterceptor} from "../security/auth.interceptor";
 
 @Component({
   selector: 'app-recommendation',
@@ -19,7 +21,15 @@ import {UserServiceService} from "../service/user-service.service";
         ReactiveFormsModule
     ],
   templateUrl: './recommendation.component.html',
-  styleUrl: './recommendation.component.css'
+  styleUrl: './recommendation.component.css',
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    BookServiceService,UserServiceService,AuthService
+  ]
 })
 export class RecommendationComponent implements OnInit{
   data!: Observable<BooksDTOS>;

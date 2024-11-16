@@ -6,7 +6,10 @@ import { AuthService } from "../service/AuthService";
 import { Router } from "@angular/router";
 import { UserServiceService } from "../service/user-service.service";
 import Swal from "sweetalert2";
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { CommonModule } from '@angular/common';
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthInterceptor} from "../security/auth.interceptor";
+import {BookServiceService} from "../service/book-service.service"; // Import CommonModule
 
 @Component({
   selector: 'app-createprofile',
@@ -15,6 +18,14 @@ import { CommonModule } from '@angular/common'; // Import CommonModule
     CommonModule, // Ajout du CommonModule pour utiliser les composants Angular de base
     FormsModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    BookServiceService,UserServiceService,AuthService
   ],
   templateUrl: './createprofile.component.html',
   styleUrls: ['./createprofile.component.css'] // Corrected styleUrl to styleUrls

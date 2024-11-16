@@ -1,17 +1,28 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from '../service/AuthService';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import Swal from 'sweetalert2';
 import {Router} from "@angular/router";
+import {AuthInterceptor} from "../security/auth.interceptor";
+import {BookServiceService} from "../service/book-service.service";
+import {UserServiceService} from "../service/user-service.service";
 
 @Component({
   standalone: true,
   selector: 'app-inscription',
   templateUrl: './inscription.component.html',
   styleUrls: ['./inscription.component.css'],
-  imports: [CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule]
+  imports: [CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    BookServiceService,UserServiceService,AuthService
+  ]
 })
 export class InscriptionComponent {
   credentials = {

@@ -7,10 +7,11 @@ import {catchError, Observable, throwError} from "rxjs";
 import {Book, BooksDTOS} from "../models/book";
 import {User, UsersDTO} from "../models/user";
 import Swal from "sweetalert2";
-import {BaseChartDirective} from "ng2-charts";
 import {RegisterRequest} from "../models/RegisterRequest";
 import {AuthService} from "../service/AuthService";
 import {Router} from "@angular/router";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthInterceptor} from "../security/auth.interceptor";
 
 @Component({
   selector: 'app-administration',
@@ -21,10 +22,17 @@ import {Router} from "@angular/router";
     NgForOf,
     NgIf,
     ReactiveFormsModule,
-    BaseChartDirective
   ],
   templateUrl: './administration.component.html',
-  styleUrls: ['./administration.component.css']
+  styleUrls: ['./administration.component.css'],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    BookServiceService,UserServiceService,AuthService
+  ]
 })
 export class AdministrationComponent implements OnInit {
   infoUser !:Observable<RegisterRequest>;

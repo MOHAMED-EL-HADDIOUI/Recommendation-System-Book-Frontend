@@ -4,15 +4,26 @@ import {AuthService} from "../service/AuthService"; // Importation correcte du d
 import { jwtDecode } from 'jwt-decode';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import Swal from "sweetalert2";
+import {AuthInterceptor} from "../security/auth.interceptor";
+import {BookServiceService} from "../service/book-service.service";
+import {UserServiceService} from "../service/user-service.service";
 
 @Component({
   standalone: true,
   selector: 'app-login',
   templateUrl: './connexion.component.html',
   styleUrls: ['./connexion.component.css'],
-  imports: [CommonModule, FormsModule,HttpClientModule, ReactiveFormsModule]
+  imports: [CommonModule, FormsModule,HttpClientModule, ReactiveFormsModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    BookServiceService,UserServiceService,AuthService
+  ]
 })
 export class ConnexionComponent {
   credentials = {

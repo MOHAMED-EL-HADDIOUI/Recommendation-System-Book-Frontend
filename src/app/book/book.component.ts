@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BookServiceService} from "../service/book-service.service";
 import {Book, BooksDTOS} from "../models/book";
 import {Router, ActivatedRoute} from "@angular/router";
@@ -10,6 +10,7 @@ import {jwtDecode} from "jwt-decode";
 import {UserServiceService} from "../service/user-service.service";
 import {catchError, Observable, throwError} from "rxjs";
 import {BookratingService} from "../service/bookrating.service";
+import {AuthInterceptor} from "../security/auth.interceptor";
 
 @Component({
   standalone: true,
@@ -17,7 +18,14 @@ import {BookratingService} from "../service/bookrating.service";
   templateUrl: './book.component.html',
   styleUrl: './book.component.css',
   imports: [CommonModule, HttpClientModule, ReactiveFormsModule],
-  providers: [BookServiceService, UserServiceService]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    BookServiceService,UserServiceService,AuthService
+  ]
 })
 export class BookComponent implements OnInit {
   id_book: string | null = "";

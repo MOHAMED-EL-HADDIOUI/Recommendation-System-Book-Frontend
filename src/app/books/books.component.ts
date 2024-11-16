@@ -5,8 +5,10 @@ import {Book, BooksDTOS} from "../models/book";
 import {BookServiceService} from "../service/book-service.service";
 import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthService} from "../service/AuthService";
+import {AuthInterceptor} from "../security/auth.interceptor";
+import {UserServiceService} from "../service/user-service.service";
 
 @Component({
   standalone: true,
@@ -14,7 +16,14 @@ import {AuthService} from "../service/AuthService";
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css'],
   imports: [CommonModule, HttpClientModule, ReactiveFormsModule],
-  providers: [BookServiceService]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    BookServiceService,AuthService,UserServiceService
+  ]
 })
 export class BooksComponent implements OnInit {
   data!: Observable<BooksDTOS>;

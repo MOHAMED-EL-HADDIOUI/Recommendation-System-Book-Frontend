@@ -8,7 +8,8 @@ import {catchError, Observable, throwError} from "rxjs";
 import {Book, BooksDTOS} from "../models/book";
 import {UserServiceService} from "../service/user-service.service";
 import {RegisterRequest} from "../models/RegisterRequest";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {AuthInterceptor} from "../security/auth.interceptor";
 
 @Component({
   selector: 'app-profil',
@@ -22,7 +23,15 @@ import {HttpClientModule} from "@angular/common/http";
     HttpClientModule
   ],
   templateUrl: './profil.component.html',
-  styleUrl: './profil.component.css'
+  styleUrl: './profil.component.css',
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    BookServiceService,UserServiceService,AuthService
+  ]
 })
 export class ProfilComponent implements OnInit {
   data!: Observable<BooksDTOS>;
@@ -62,9 +71,12 @@ export class ProfilComponent implements OnInit {
   getInfo(): void {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
-    if (username) {
+    const role = localStorage.getItem('role');
+
+    if (username && role) {
       try {
         this.authService.setUsername(username);
+        this.authService.setRole(role);
       } catch (error) {
       }
     }
@@ -98,7 +110,10 @@ export class ProfilComponent implements OnInit {
   }
   isAdmin():boolean
   {
-    if(this.authService.getRole()==="ADMIN")
+    console.log("this.authService.getRole()")
+    console.log(this.authService.getRole())
+
+    if(this.authService.getRole()=="ADMIN")
     {
       return true;
     }

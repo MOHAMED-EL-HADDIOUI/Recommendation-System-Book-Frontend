@@ -5,7 +5,9 @@ import {BookServiceService} from "../service/book-service.service";
 import {AuthService} from "../service/AuthService";
 import {Router} from "@angular/router";
 import {jwtDecode} from "jwt-decode";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {AuthInterceptor} from "../security/auth.interceptor";
+import {UserServiceService} from "../service/user-service.service";
 
 @Component({
   standalone: true,
@@ -14,7 +16,14 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     NgIf,HttpClientModule, ReactiveFormsModule,CommonModule
   ],
-  styleUrl: './contact.component.css'
+  styleUrl: './contact.component.css',
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },AuthService
+  ]
 })
 export class ContactComponent  implements OnInit {
   ngOnInit(): void {
